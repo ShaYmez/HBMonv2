@@ -98,7 +98,17 @@ $log_time[$i]=substr($log_time[$i],0,19);
 if ($user_id[$i]=="1234567") {$user_call[$i] = "*NoCallsign*"; $user_id[$i]="-";}
 
 // output table
-echo "<tr class=\"log\" style=\"height:25px; text-align: center;\"><td class=\"log\">&nbsp;".$date_eu[2].".".$date_eu[1].".".$date_eu[0]."</td><td class=\"log\">&nbsp;".substr($log_time[$i],11,5)."</td><td class=\"log\"><span style=\"color:#0066ff;\"><b>&nbsp;".htmlspecialchars($user_call[$i])."</b></span><span style=\"font-size:smaller;\"> (".htmlspecialchars($user_id[$i]).")</span></td><td class=\"log\"><span style=\"color:#002d62;\"><b>".htmlspecialchars(trim($user_name[$i]))."</b></span></td><td class=\"log\"><span style=\"color:#b5651d;\"><b>".htmlspecialchars($tg[$i])."</b></span></td><td class=\"log\"><span style=\"color:green;\"><b>&nbsp;".htmlspecialchars($tgname[$i])."</b></span></td><td class=\"log\" style=\"text-align:center;\">".htmlspecialchars(round($transmit_timer[$i]))."</td><td class=\"log\">".htmlspecialchars($system[$i])."</td></tr>\n";
+echo "<tr class=\"log\" style=\"height:25px; text-align: center;\">";
+echo "<td class=\"log\">&nbsp;".$date_eu[2].".".$date_eu[1].".".$date_eu[0]."</td>";
+echo "<td class=\"log\">&nbsp;".substr($log_time[$i],11,5)."</td>";
+echo "<td class=\"log\"><span style=\"color:#0066ff;\"><b>&nbsp;".htmlspecialchars($user_call[$i])."</b></span>";
+echo "<span style=\"font-size:smaller;\"> (".htmlspecialchars($user_id[$i]).")</span></td>";
+echo "<td class=\"log\"><span style=\"color:#002d62;\"><b>".htmlspecialchars(trim($user_name[$i]))."</b></span></td>";
+echo "<td class=\"log\"><span style=\"color:#b5651d;\"><b>".htmlspecialchars($tg[$i])."</b></span></td>";
+echo "<td class=\"log\"><span style=\"color:green;\"><b>&nbsp;".htmlspecialchars($tgname[$i])."</b></span></td>";
+echo "<td class=\"log\" style=\"text-align:center;\">".htmlspecialchars(round($transmit_timer[$i]))."</td>";
+echo "<td class=\"log\">".htmlspecialchars($system[$i])."</td>";
+echo "</tr>\n";
 }
 
 echo "\n</table></fieldset></div></div>";
