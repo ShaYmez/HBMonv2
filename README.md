@@ -3,7 +3,7 @@
 **HBmonitor is a "web dashboard" for HBlink by N0MJS. Further developed by Steve KC1AWV**
 
 ***Version - HBMonV2 by SP2ONG 2019-2022***
-***Docker Version 2.0.1 by ShaYmez M0VUB 2020-2024***
+***Docker Version 2.0.1 by ShaYmez M0VUB 2020-2025***
 
 The main difference between HBMonitor v1 and v2 is the layout, i.e. the main page shows condensed 
 information and on the subpages, you can see the individual content that was shown on v1
