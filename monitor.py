@@ -315,14 +315,20 @@ def add_hb_peer(_peer_conf, _ctable_loc, _peer):
     # if the Frequency is 000.xxx assume it's not an RF peer, otherwise format the text fields
     # (9 char, but we are just software)  see https://wiki.brandmeister.network/index.php/Homebrew/example/php2
     
-    if isinstance(_peer_conf['TX_FREQ'], bytes) and isinstance(_peer_conf['RX_FREQ'], bytes) and _peer_conf['TX_FREQ'].strip().isdigit() and _peer_conf['RX_FREQ'].strip().isdigit():
-        if _peer_conf['TX_FREQ'][:3] == b'000' or _peer_conf['TX_FREQ'][:1] == b'0' or _peer_conf['RX_FREQ'][:3] == b'000' or _peer_conf['RX_FREQ'][:1] == b'0':
+    try:
+        if isinstance(_peer_conf['TX_FREQ'], bytes) and isinstance(_peer_conf['RX_FREQ'], bytes) and \
+           _peer_conf['TX_FREQ'].strip().isdigit() and _peer_conf['RX_FREQ'].strip().isdigit():
+            if _peer_conf['TX_FREQ'][:3] == b'000' or _peer_conf['TX_FREQ'][:1] == b'0' or \
+               _peer_conf['RX_FREQ'][:3] == b'000' or _peer_conf['RX_FREQ'][:1] == b'0':
+                _ctable_peer['TX_FREQ'] = 'N/A'
+                _ctable_peer['RX_FREQ'] = 'N/A'
+            else:
+                _ctable_peer['TX_FREQ'] = _peer_conf['TX_FREQ'][:3].decode('utf-8') + '.' + _peer_conf['TX_FREQ'][3:7].decode('utf-8') + ' MHz'
+                _ctable_peer['RX_FREQ'] = _peer_conf['RX_FREQ'][:3].decode('utf-8') + '.' + _peer_conf['RX_FREQ'][3:7].decode('utf-8') + ' MHz'
+        else:
             _ctable_peer['TX_FREQ'] = 'N/A'
             _ctable_peer['RX_FREQ'] = 'N/A'
-        else:
-            _ctable_peer['TX_FREQ'] = _peer_conf['TX_FREQ'][:3].decode('utf-8') + '.' + _peer_conf['TX_FREQ'][3:7].decode('utf-8') + ' MHz'
-            _ctable_peer['RX_FREQ'] = _peer_conf['RX_FREQ'][:3].decode('utf-8') + '.' + _peer_conf['RX_FREQ'][3:7].decode('utf-8') + ' MHz'
-    else:
+    except (AttributeError, ValueError, KeyError):
         _ctable_peer['TX_FREQ'] = 'N/A'
         _ctable_peer['RX_FREQ'] = 'N/A'      
     # timeslots are kinda complicated too. 0 = none, 1 or 2 mean that one slot, 3 is both, and anything else it considered DMO
