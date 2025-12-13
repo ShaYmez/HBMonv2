@@ -2,34 +2,33 @@
 $progname = basename($_SERVER['SCRIPT_FILENAME'],".php");
 include_once 'include/config.php';
 include_once 'include/version.php';?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="refresh" content="30">
 <title>HBlink3 DMR Server - Lastheard</title>
 <script type="text/javascript" src="scripts/hbmon.js"></script>
 <link rel="stylesheet" type="text/css" href="css/styles.php" />
-<meta name="description" content="Copyright &copy; 2016-2023. The Regents of the K0USY Group. All rights reserved. Version SP2ONG 2019-2023 (v20230102) HBlink3 Dashboard " />
+<meta name="description" content="Copyright &copy; 2016-2025. The Regents of the K0USY Group. All rights reserved. Version SP2ONG 2019-2025 HBlink3 Dashboard" />
 </head>
 <body style="background-color: #d0d0d0;font: 10pt arial, sans-serif;">
-<center><div style="width:1100px; text-align: center; margin-top:5px;">
-<p style="font-size: 10px; text-align: right; margin-right: 16px">Dashboard Version: <?php echo DASH; ?></p>
-<img src="img/HBLINK_logoV2.png?random=323527528432525.24234" alt="" />
+<div style="text-align: center;">
+<div style="width:1100px; text-align: center; margin:5px auto 0;">
+<p style="font-size: 10px; text-align: right; margin-right: 16px">Dashboard Version: <?php echo htmlspecialchars(DASH); ?></p>
+<img src="img/HBLINK_logoV2.png?random=323527528432525.24234" alt="HBlink Logo" />
 </div>
-<div style="width: 1150px;">
-<p style="text-align:center;"><span style="color:#000;font-size: 18px; font-weight:bold;"><?php echo REPORT_NAME;?></span></p>
-<p></p>
+<div style="width: 1150px; margin: 0 auto;">
+<p style="text-align:center;"><span style="color:#000;font-size: 18px; font-weight:bold;"><?php echo htmlspecialchars(REPORT_NAME);?></span></p>
 </div>
 <?php include_once 'buttons.html'; ?>
-<div style="width: 1100px;">
-<p align="middle">
+<div style="width: 1100px; margin: 0 auto;">
 <div style="overflow-x:auto;">
-<center><fieldset style="background-color:#e0e0e0e0;margin-left:15px;margin-right:15px;margin-top:15px;font-size:14px;border-top-left-radius: 10px; border-top-right-radius: 10px;border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
-<table style="border-collapse: collapse; border: 1px solid #C1DAD7; width: 100%;background-color:#f0f0f0;">
-    <thead><tr><th colspan=9 style="height: 30px;font-size:18px;font-weight:bold;">LastHeard</th></tr></thead>
-<tr class="theme_color" style="height:35px; text-align: center;font-weight:bold;"><TH>&nbsp;&nbsp;Date<TH>&nbsp;Time<TH>&nbsp;Callsign (DMR-Id)<TH>&nbsp;&nbsp;Name<TH>&nbsp;TG#<TH>&nbsp;&nbsp;TG Name<TH>TX (s)&nbsp;<TH>Source
+<fieldset style="background-color:#e0e0e0; margin:15px; font-size:14px; border-radius: 10px;">
+<table style="border-collapse: collapse; border: 1px solid #C1DAD7; width: 100%; background-color:#f0f0f0;">
+    <thead><tr><th colspan="9" style="height: 30px; font-size:18px; font-weight:bold;">LastHeard</th></tr></thead>
+<tr class="theme_color" style="height:35px; text-align: center; font-weight:bold;"><th>&nbsp;&nbsp;Date</th><th>&nbsp;Time</th><th>&nbsp;Callsign (DMR-Id)</th><th>&nbsp;&nbsp;Name</th><th>&nbsp;TG#</th><th>&nbsp;&nbsp;TG Name</th><th>TX (s)&nbsp;</th><th>Source</th>
 </tr>
 
 <?php
@@ -99,10 +98,10 @@ $log_time[$i]=substr($log_time[$i],0,19);
 if ($user_id[$i]=="1234567") {$user_call[$i] = "*NoCallsign*"; $user_id[$i]="-";}
 
 // output table
-echo "<TR class=\"log\" style=\"height:25px; text-align: center;\">".$s.'&nbsp;'.$date_eu[2].".".$date_eu[1].".".$date_eu[0].$s.'&nbsp;'.substr($log_time[$i],11,5).$s.'<font color=#0066ff><b>&nbsp;'.$user_call[$i]."</b></font><font size=\"-1\"> (".$user_id[$i].")</font>".$s.'<font color=#002d62><b>'.TRIM($user_name[$i]).'</b></font>'.$s.'<font color=#b5651d><b>'.$tg[$i].'</b></font>'.$s.'<font color=green><b>&nbsp;'.$tgname[$i].'</b></font>'.$s."<center>".round($transmit_timer[$i])."</center>".$s.$system[$i]."</TR>\n";
+echo "<tr class=\"log\" style=\"height:25px; text-align: center;\"><td class=\"log\">&nbsp;".$date_eu[2].".".$date_eu[1].".".$date_eu[0]."</td><td class=\"log\">&nbsp;".substr($log_time[$i],11,5)."</td><td class=\"log\"><span style=\"color:#0066ff;\"><b>&nbsp;".htmlspecialchars($user_call[$i])."</b></span><span style=\"font-size:smaller;\"> (".htmlspecialchars($user_id[$i]).")</span></td><td class=\"log\"><span style=\"color:#002d62;\"><b>".htmlspecialchars(trim($user_name[$i]))."</b></span></td><td class=\"log\"><span style=\"color:#b5651d;\"><b>".htmlspecialchars($tg[$i])."</b></span></td><td class=\"log\"><span style=\"color:green;\"><b>&nbsp;".htmlspecialchars($tgname[$i])."</b></span></td><td class=\"log\" style=\"text-align:center;\">".htmlspecialchars(round($transmit_timer[$i]))."</td><td class=\"log\">".htmlspecialchars($system[$i])."</td></tr>\n";
 }
 
-echo "\n</table></fieldset></div>";
+echo "\n</table></fieldset></div></div>";
 
 // close logfile after parsing
 fclose ($handle);
@@ -110,6 +109,6 @@ fclose ($handle);
 <!--footer-->
 <?php include_once 'elements/footer.php'; ?>
 <!--//footer-->
-</center>
+</div>
 </body>
 </html>
