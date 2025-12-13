@@ -1,12 +1,12 @@
 
-<fieldset style="width:1045px;background-color:#f1f1f1;margin-left:5px;margin-right:5px;font-size:14px;border-top-left-radius: 10px; border-top-right-radius: 10px;border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
-<legend><b><font color="#000">&nbsp;.: Server Activity :.&nbsp;</font></b></legend>
+<fieldset style="width:1045px; background-color:#f1f1f1; margin-left:5px; margin-right:5px; font-size:14px; border-radius: 10px;">
+<legend><b><span style="color:#000;">&nbsp;.: Server Activity :.&nbsp;</span></b></legend>
 {% if _table['MASTERS']|length >0 %}
- <table width=100% style="background-color:#f0f0f0;border:none !important;border-collapse:collapse;border:none;">
-    <tr style="height:30px;border-collapse:collapse; border:none;">
-      <td width=100% style="border-collapse:collapse;border:none;"><div id="rcornerh">Active QSO's</div></td>
+ <table style="width:100%; background-color:#f0f0f0; border:none !important; border-collapse:collapse;">
+    <tr style="height:30px; border-collapse:collapse; border:none;">
+      <td style="width:100%; border-collapse:collapse; border:none;"><div id="rcornerh">Active QSO's</div></td>
     </tr>
-    <tr style="border-collapse:collapse;border:none;">
+    <tr style="border-collapse:collapse; border:none;">
     <td id="lact">
     <div id="rcorner"><div>
     {% for _master in _table['MASTERS'] %}
@@ -14,19 +14,19 @@
     {% if _cdata[1]['TS'] == True or _cdata[2]['TS'] == True %}
         {% if _cdata[1]['TRX'] == "RX" %}
         &#32;[<span style="color:#008000;">M</span>:&nbsp;<span style="color:#0065ff;">{{ _cdata[1]['CALL']|safe }}</span>
-        &nbsp;<font color=red>>></font>&nbsp;<span style="color:#b5651d;">{{ _cdata[1]['TG']|safe }}</span>]&nbsp;
+        &nbsp;<span style="color:red;">>></span>&nbsp;<span style="color:#b5651d;">{{ _cdata[1]['TG']|safe }}</span>]&nbsp;
         {% endif %}
         {% if _cdata[2]['TRX'] == "RX" %}
         &#32;[<span style="color:#008000;">M</span>:&nbsp;<span style="color:#0065ff;">{{ _cdata[2]['CALL']|safe}}</span>
-        &nbsp;<font color=red>>></font>&nbsp;<span style="color:#b5651d;">{{_cdata[2]['TG']|safe}}</span>]&nbsp;
+        &nbsp;<span style="color:red;">>></span>&nbsp;<span style="color:#b5651d;">{{_cdata[2]['TG']|safe}}</span>]&nbsp;
         {% endif %}
     {% endif %}
     {% endfor %}
     {% endfor %}
 {% else %}
-         <table width=100%; style='background-color:#f9f9f9;font: 13pt arial, sans-serif; margin-top:4px;margin-bottom:4px;'>
-             <tr style='border:none; background-color:#f0f0f0;'>
-             <td style='border:none;height:60px;'><font color=brown><b><center>Waiting for data from the Server ...</center></b></td>
+         <table style="width:100%; background-color:#f9f9f9; font: 13pt arial, sans-serif; margin-top:4px; margin-bottom:4px;">
+             <tr style="border:none; background-color:#f0f0f0;">
+             <td style="border:none; height:60px; text-align:center;"><span style="color:brown;"><b>Waiting for data from the Server ...</b></span></td>
              </tr>
             </table>
  {% endif %}
@@ -34,11 +34,11 @@
     {% if _pdata[1]['TS'] == True or _pdata[2]['TS'] == True %}
         {% if _pdata[1]['TRX'] == "RX" %}
         &#32;[<span style="color:#008000;">M</span>:&nbsp;<span style="color:#0065ff;">{{ _pdata[1]['CALL']|safe }}</span>
-        &nbsp;<font color=red>>></font>&nbsp;<span style="color:#b5651d;">{{ _pdata[1]['TG']|safe }}</span>]&nbsp;
+        &nbsp;<span style="color:red;">>></span>&nbsp;<span style="color:#b5651d;">{{ _pdata[1]['TG']|safe }}</span>]&nbsp;
         {% endif %}
         {% if _pdata[2]['TRX'] == "RX" %}
         &#32;[<span style="color:#008000;">M</span>:&nbsp;<span style="color:#0065ff;">{{ _pdata[2]['CALL']|safe }}</span>
-        &nbsp;<font color=red>>></font>&nbsp;<span style="color:#b5651d;">{{ _pdata[2]['TG']|safe }}</span>]&nbsp;
+        &nbsp;<span style="color:red;">>></span>&nbsp;<span style="color:#b5651d;">{{ _pdata[2]['TG']|safe }}</span>]&nbsp;
         {% endif %}
     {% endif %}
     {% endfor %}
@@ -50,7 +50,7 @@
          {% set rx.value=1 %}
        {% endfor %}
        {% if rx.value == 1 %}
-         {% for entry in _table['OPENBRIDGES'][_openbridge]['STREAMS']  if _table['OPENBRIDGES'][_openbridge]['STREAMS'][entry][0] == 'RX' %}&#32;[<span style="color:#008000;">O</span>:&nbsp;<font color=#0065ff>{{ _table['OPENBRIDGES'][_openbridge]['STREAMS'][entry][1]}}</font>&nbsp;<font color=red>>></font>&nbsp;<font color=#b5651d>TG&nbsp;{{ _table['OPENBRIDGES'][_openbridge]['STREAMS'][entry][2]|safe}}</font>]&nbsp;{% endfor %}
+         {% for entry in _table['OPENBRIDGES'][_openbridge]['STREAMS']  if _table['OPENBRIDGES'][_openbridge]['STREAMS'][entry][0] == 'RX' %}&#32;[<span style="color:#008000;">O</span>:&nbsp;<span style="color:#0065ff;">{{ _table['OPENBRIDGES'][_openbridge]['STREAMS'][entry][1]}}</span>&nbsp;<span style="color:red;">>></span>&nbsp;<span style="color:#b5651d;">TG&nbsp;{{ _table['OPENBRIDGES'][_openbridge]['STREAMS'][entry][2]|safe}}</span>]&nbsp;{% endfor %}
       {% endif %}
    {% endif %}
    {% endfor %}
@@ -62,12 +62,12 @@
 {% if _table['SETUP']['LASTHEARD'] == True %}
   {% include 'lastheard.html' ignore missing %}
 {% endif %}
-<fieldset style="background-color:#f0f0f0f0;margin-left:15px;margin-right:15px;font-size:14px;border-top-left-radius: 10px; border-top-right-radius: 10px;border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
-<legend><b><font color="#000">&nbsp;.: Connected to Server :.&nbsp;</font></b></legend>
-<table style="table-layout:fixed;width:100%; font: 10pt arial, sans-serif;font-weight:600;margin-top:5px;margin-bottom:5px;border:none !important;border-collapse:collapse;border:none;" width=100%>
+<fieldset style="background-color:#f0f0f0; margin-left:15px; margin-right:15px; font-size:14px; border-radius: 10px;">
+<legend><b><span style="color:#000;">&nbsp;.: Connected to Server :.&nbsp;</span></b></legend>
+<table style="table-layout:fixed; width:100%; font: 10pt arial, sans-serif; font-weight:600; margin-top:5px; margin-bottom:5px; border:none !important; border-collapse:collapse;">
 {% if _table['MASTERS']|length >0 %}
-<tr style="border-collapse:collapse;border:none;"><td style="border-collapse:collapse;border:none;">
-<div style="background-color:#f9f9f9f9;background-image: linear-gradient(to bottom, #e9e9e9 50%, #bcbaba 100%);border-radius: 10px;-moz-border-radius:10px;-webkit-border-radius:10px;border: 1px solid LightGrey;">
+<tr style="border-collapse:collapse; border:none;"><td style="border-collapse:collapse; border:none;">
+<div style="background-color:#f9f9f9; background-image: linear-gradient(to bottom, #e9e9e9 50%, #bcbaba 100%); border-radius: 10px; border: 1px solid LightGrey;">
 <br>
 <div style="text-align:left;"><span style="color:#464646;font-weight:600;line-height:1.4;">&nbsp;&nbsp;USERS:</span></div>
 <div style="text-align:left;font:9.5pt arial, sans-serif;font-weight:bold;margin-left:25px; margin-right:25px;line-height:1.4;white-space:normal;">
