@@ -8,7 +8,7 @@
 The main difference between HBMonitor v1 and v2 is the layout, i.e. the main page shows condensed 
 information and on the subpages, you can see the individual content that was shown on v1
 
-HBMonv2 is tested on Debian v10 & v11
+HBMonv2 is tested on Debian v10, v11, v12 & v13
 
 This version of HBMonv2 requires a web server like apache2, lighttpd and 
 php support running on the server. 
@@ -94,21 +94,6 @@ php support running on the server.
     forward TCP port 9000 and web server port 8080 in firewall
     
     *****************************************************************************************
----
-
-After update distribution of Linux jinja2 to version 3.x you can find problem with run HBMonitor with error:
-
-     ValueError: The 'monitor' package was not installed in a way that PackageLoader understands.
-
-
-You must uninstall jinja2 and reinstalling with this version Jinja2==2.11.3
-
-    pip3 uninstall jinja2
-
-and
-
-    pip3 install Jinja2==2.11.3
-
 ---
 
 **hbmonitor3 by KC1AWV**
