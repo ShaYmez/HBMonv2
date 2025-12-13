@@ -62,7 +62,7 @@ from collections import deque
 from time import time
 
 # Web templating environment
-from jinja2 import Environment, PackageLoader, select_autoescape
+from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 # Utilities from K0USY Group sister project
 from dmr_utils3.utils import int_id, try_download, bytes_4
@@ -315,7 +315,7 @@ def add_hb_peer(_peer_conf, _ctable_loc, _peer):
     # if the Frequency is 000.xxx assume it's not an RF peer, otherwise format the text fields
     # (9 char, but we are just software)  see https://wiki.brandmeister.network/index.php/Homebrew/example/php2
     
-    if _peer_conf['TX_FREQ'].strip().isdigit() and _peer_conf['RX_FREQ'].strip().isdigit() and str(type(_peer_conf['TX_FREQ'])).find("bytes") != -1 and str(type(_peer_conf['RX_FREQ'])).find("bytes") != -1:
+    if isinstance(_peer_conf['TX_FREQ'], bytes) and isinstance(_peer_conf['RX_FREQ'], bytes) and _peer_conf['TX_FREQ'].strip().isdigit() and _peer_conf['RX_FREQ'].strip().isdigit():
         if _peer_conf['TX_FREQ'][:3] == b'000' or _peer_conf['TX_FREQ'][:1] == b'0' or _peer_conf['RX_FREQ'][:3] == b'000' or _peer_conf['RX_FREQ'][:1] == b'0':
             _ctable_peer['TX_FREQ'] = 'N/A'
             _ctable_peer['RX_FREQ'] = 'N/A'
@@ -338,37 +338,37 @@ def add_hb_peer(_peer_conf, _ctable_loc, _peer):
         _ctable_peer['SLOTS'] = 'Simplex'
 
     # Simple translation items
-    if str(type(_peer_conf['PACKAGE_ID'])).find("bytes") != -1:
+    if isinstance(_peer_conf['PACKAGE_ID'], bytes):
        _ctable_peer['PACKAGE_ID'] = _peer_conf['PACKAGE_ID'].decode('utf-8')
     else:
        _ctable_peer['PACKAGE_ID'] = _peer_conf['PACKAGE_ID']
 
-    if str(type(_peer_conf['SOFTWARE_ID'])).find("bytes") != -1:
+    if isinstance(_peer_conf['SOFTWARE_ID'], bytes):
        _ctable_peer['SOFTWARE_ID'] = _peer_conf['SOFTWARE_ID'].decode('utf-8')
     else:
        _ctable_peer['SOFTWARE_ID'] = _peer_conf['SOFTWARE_ID']
 
-    if str(type(_peer_conf['LOCATION'])).find("bytes") != -1:
+    if isinstance(_peer_conf['LOCATION'], bytes):
        _ctable_peer['LOCATION'] = _peer_conf['LOCATION'].decode('utf-8').strip()
     else:
        _ctable_peer['LOCATION'] = _peer_conf['LOCATION']
 
-    if str(type(_peer_conf['DESCRIPTION'])).find("bytes") != -1:
+    if isinstance(_peer_conf['DESCRIPTION'], bytes):
        _ctable_peer['DESCRIPTION'] = _peer_conf['DESCRIPTION'].decode('utf-8').strip()
     else:
        _ctable_peer['DESCRIPTION'] = _peer_conf['DESCRIPTION']
 
-    if str(type(_peer_conf['URL'])).find("bytes") != -1:
+    if isinstance(_peer_conf['URL'], bytes):
        _ctable_peer['URL'] = _peer_conf['URL'].decode('utf-8').strip()
     else:
        _ctable_peer['URL'] = _peer_conf['URL']
        
-    if str(type(_peer_conf['CALLSIGN'])).find("bytes") != -1:
+    if isinstance(_peer_conf['CALLSIGN'], bytes):
        _ctable_peer['CALLSIGN'] = _peer_conf['CALLSIGN'].decode('utf-8').strip()
     else:
        _ctable_peer['CALLSIGN'] = _peer_conf['CALLSIGN']
     
-    if str(type(_peer_conf['COLORCODE'])).find("bytes") != -1:
+    if isinstance(_peer_conf['COLORCODE'], bytes):
        _ctable_peer['COLORCODE'] = _peer_conf['COLORCODE'].decode('utf-8').strip()
     else:    
        _ctable_peer['COLORCODE'] = _peer_conf['COLORCODE']
@@ -417,22 +417,22 @@ def build_hblink_table(_config, _stats_table):
                 _stats_table['PEERS'][_hbp] = {}
                 _stats_table['PEERS'][_hbp]['MODE'] = _hbp_data['MODE']
 
-                if str(type(_hbp_data['LOCATION'])).find("bytes") != -1:
+                if isinstance(_hbp_data['LOCATION'], bytes):
                      _stats_table['PEERS'][_hbp]['LOCATION'] = _hbp_data['LOCATION'].decode('utf-8').strip()
                 else:
                      _stats_table['PEERS'][_hbp]['LOCATION'] = _hbp_data['LOCATION']
                      
-                if str(type(_hbp_data['DESCRIPTION'])).find("bytes") != -1:
+                if isinstance(_hbp_data['DESCRIPTION'], bytes):
                      _stats_table['PEERS'][_hbp]['DESCRIPTION'] = _hbp_data['DESCRIPTION'].decode('utf-8').strip()
                 else:
                      _stats_table['PEERS'][_hbp]['DESCRIPTION'] = _hbp_data['DESCRIPTION']
                      
-                if str(type(_hbp_data['URL'])).find("bytes") != -1:
+                if isinstance(_hbp_data['URL'], bytes):
                      _stats_table['PEERS'][_hbp]['URL'] = _hbp_data['DESCRIPTION'].decode('utf-8').strip()
                 else:
                      _stats_table['PEERS'][_hbp]['URL'] = _hbp_data['DESCRIPTION']
 
-                if str(type(_hbp_data['CALLSIGN'])).find("bytes") != -1:
+                if isinstance(_hbp_data['CALLSIGN'], bytes):
                      _stats_table['PEERS'][_hbp]['CALLSIGN'] = _hbp_data['CALLSIGN'].decode('utf-8').strip()
                 else:
                      _stats_table['PEERS'][_hbp]['CALLSIGN'] = _hbp_data['CALLSIGN']
@@ -1028,7 +1028,7 @@ if __name__ == '__main__':
 
     # Jinja2 Stuff
     env = Environment(
-        loader=PackageLoader('monitor', 'templates'),
+        loader=FileSystemLoader(os.path.join(os.path.dirname(__file__), 'templates')),
         autoescape=select_autoescape(['html', 'xml'])
     )
 
