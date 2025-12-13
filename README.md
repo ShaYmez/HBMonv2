@@ -11,9 +11,7 @@ information and on the subpages, you can see the individual content that was sho
 HBMonv2 is tested on Debian v10, v11, v12 & v13
 
 **Note for Debian 12+/Ubuntu 23.04+**: The install.sh script has been updated to handle 
-PEP 668 externally-managed-environment restrictions. If you encounter any pip installation 
-errors, the script automatically uses the --break-system-packages flag. For a cleaner 
-installation, consider using a Python virtual environment.
+PEP 668 externally-managed-environment restrictions using the --break-system-packages flag.
 
 This version of HBMonv2 requires a web server like apache2, lighttpd and 
 php support running on the server. 
