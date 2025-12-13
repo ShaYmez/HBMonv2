@@ -1,5 +1,3 @@
 #!/bin/sh
-
 echo 'Starting HBMonv2...'
-cd /hbmon
-python /hbmon/monitor.py
+exec python monitor.py
