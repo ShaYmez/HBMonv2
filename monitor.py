@@ -428,9 +428,9 @@ def build_hblink_table(_config, _stats_table):
                      _stats_table['PEERS'][_hbp]['DESCRIPTION'] = _hbp_data['DESCRIPTION']
                      
                 if isinstance(_hbp_data['URL'], bytes):
-                     _stats_table['PEERS'][_hbp]['URL'] = _hbp_data['DESCRIPTION'].decode('utf-8').strip()
+                     _stats_table['PEERS'][_hbp]['URL'] = _hbp_data['URL'].decode('utf-8').strip()
                 else:
-                     _stats_table['PEERS'][_hbp]['URL'] = _hbp_data['DESCRIPTION']
+                     _stats_table['PEERS'][_hbp]['URL'] = _hbp_data['URL']
 
                 if isinstance(_hbp_data['CALLSIGN'], bytes):
                      _stats_table['PEERS'][_hbp]['CALLSIGN'] = _hbp_data['CALLSIGN'].decode('utf-8').strip()
