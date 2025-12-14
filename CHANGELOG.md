@@ -5,7 +5,7 @@ All notable changes to HBMonv2 will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.0.2] - 2024-12-13
+## [2.0.2] - 2025-12-14
 
 ### Added
 - Comprehensive CHANGELOG.md to document all changes
@@ -63,7 +63,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Version History
 
-- **2.0.2** (2024-12-13): HTML5 compliance, security improvements, code quality enhancements
+- **2.0.2** (2025-12-14): HTML5 compliance, security improvements, code quality enhancements
 - **1.6.9** (2024-06-14): Previous stable release
 - **Original**: HBMonitor by N0MJS, further developed by KC1AWV, adapted by SP2ONG
 
