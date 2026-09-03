@@ -81,6 +81,19 @@ php support running on the server.
     html/include/config.php:
     define("TGID_JSON", "");
     define("TGMANAGER_USERS", "");
+    define("LASTHEARD_LOG", "");
+    define("SEO_INDEX", true);
+
+    Public pages are indexable by default (unique titles, meta description,
+    generator/version, Open Graph, JSON-LD). Talkgroup Manager is always
+    noindex. Private dashboards: define("SEO_INDEX", false);
+
+    Lastheard long list (log.php) auto-detects /var/log/hbmon/lastheard.log
+    then /opt/HBMonv2/log/lastheard.log. Override with LASTHEARD_LOG.
+
+    HTTPS dashboards open wss://hostname:9000. hbmon listens plain ws on
+    9000 — put a reverse proxy in front (Apache/nginx) that forwards WSS
+    to ws://127.0.0.1:9000.
 
     Talkgroup Manager (info.php Login, or /tgmanager.php):
     php /opt/HBMonv2/utils/tgmanager-passwd admin
@@ -107,6 +120,8 @@ php support running on the server.
     systemctl start hbmon
     systemctl status hbmon
     forward TCP port 9000 and web server port in firewall
+    If the dashboard is served over HTTPS, proxy WSS to ws://127.0.0.1:9000
+    (the monitor process does not terminate TLS on 9000 by default).
     
     Please setup your SYSTEM INFO subpage with the following instruction:
     

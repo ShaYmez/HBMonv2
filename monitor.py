@@ -40,6 +40,8 @@ import datetime
 
 import os
 import csv
+import html as html_lib
+from urllib.parse import quote as urlquote
 from itertools import islice
 from subprocess import check_call, CalledProcessError
 
@@ -103,7 +105,7 @@ GREEN2      = '008000'
 BLUE        = '0000ff'
 ORANGE      = 'ff8000'
 WHITE       = 'ffffff'
-WHITE2      = 'f9f9f9f9'
+WHITE2      = 'f9f9f9'
 YELLOW      = 'fffccd'
 
 # Define setup setings
@@ -244,6 +246,57 @@ def alias_tgid(_id, _dict):
         return str(alias[0])
     else:
         return str(" ")
+
+def alias_name(_id, _dict):
+    alias = get_alias(_id, _dict, 'NAME')
+    if type(alias) == list:
+        return str(alias[0]) if alias else ''
+    return str(alias)
+
+def htmlesc(_value):
+    return html_lib.escape('' if _value is None else str(_value), quote=True)
+
+def lastheard_html_path():
+    return os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates', 'lastheard.html')
+
+def write_lastheard_html():
+    my_list = []
+    n = 0
+    log_file = LOG_PATH + 'lastheard.log'
+    if not os.path.isfile(log_file):
+        return
+    with open(lastheard_html_path(), 'w', encoding='UTF-8', errors='ignore') as f:
+        f.write('<br><fieldset style="width:1050px; background-color:#f0f0f0; margin-left:15px; margin-right:15px; font-size:14px; border-radius: 10px;">\n')
+        f.write('<legend><b><span style="color:#000;">&nbsp;.: Lastheard :.&nbsp;</span></b></legend>\n')
+        f.write('<table style="width:100%; font: 10pt arial, sans-serif;background-color:#f1f1f1;">\n')
+        f.write('<tr class="theme_color" style="height: 32px; font: 10pt arial, sans-serif;"><th>Date</th><th>Time</th><th>Callsign (DMR-Id)</th><th>Name</th><th>TG#</th><th>TG Name</th><th>TX (s)</th><th>System</th></tr>\n')
+        with open(log_file, 'r', encoding='UTF-8', errors='ignore', newline='') as textfile:
+            for row in islice(reversed(list(csv.reader(textfile))), 200):
+                if len(row) < 12:
+                    continue
+                try:
+                    dur = str(int(float(row[1].strip())))
+                except (ValueError, IndexError):
+                    continue
+                user_id = row[10]
+                callsign = row[11]
+                name = row[12] if len(row) > 12 else ''
+                if user_id in my_list:
+                    continue
+                call_esc = htmlesc(callsign)
+                id_esc = htmlesc(user_id)
+                if callsign.strip().isdigit() or callsign in ('N0CALL', 'NOCALL'):
+                    qrz = '<b><span style="color:#464646;">' + call_esc + '</span></b>'
+                else:
+                    qrz = '<a style="font: 9pt arial,sans-serif;font-weight:bold;color:#0066ff;" target="_blank" href="https://qrz.com/db/' + urlquote(callsign, safe='') + '">' + call_esc + '</a><span style="font: 7pt arial,sans-serif"> (' + id_esc + ')</span>'
+                tg = row[8][2:] if len(row[8]) > 2 else row[8]
+                hline = '<tr class="log"><td>' + htmlesc(row[0][:10]) + '</td><td>' + htmlesc(row[0][11:16]) + '</td><td>' + qrz + '</td><td><span style="color:#002d62;"><b>' + htmlesc(name) + '</b></span></td><td><span style="color:#b5651d;"><b>' + htmlesc(tg) + '</b></span></td><td><span style="color:green;"><b>' + htmlesc(row[9]) + '</b></span></td><td>' + htmlesc(dur) + '</td><td>' + htmlesc(row[4]) + '</td></tr>'
+                my_list.append(user_id)
+                n += 1
+                f.write(hline + '\n')
+                if n == 15:
+                    break
+        f.write('</table></fieldset><br>\n')
 
 # Return friendly elapsed time from time in seconds.
 def since(_time):
@@ -675,8 +728,8 @@ def rts_update(p):
                 CTABLE['MASTERS'][system]['PEERS'][peer][timeSlot]['SUB'] = '{} ({})'.format(alias_short(sourceSub, subscriber_ids), sourceSub)
                 CTABLE['MASTERS'][system]['PEERS'][peer][timeSlot]['CALL'] = '{}'.format(alias_call(sourceSub, subscriber_ids))
                 CTABLE['MASTERS'][system]['PEERS'][peer][timeSlot]['SRC'] = peer
-                CTABLE['MASTERS'][system]['PEERS'][peer][timeSlot]['DEST'] = 'TG {}&nbsp;&nbsp;&nbsp;&nbsp;{}'.format(destination,alias_tgid(destination,talkgroup_ids))    
-                CTABLE['MASTERS'][system]['PEERS'][peer][timeSlot]['TG'] = 'TG&nbsp;{}'.format(destination)    
+                CTABLE['MASTERS'][system]['PEERS'][peer][timeSlot]['DEST'] = 'TG {}    {}'.format(destination, alias_tgid(destination,talkgroup_ids))
+                CTABLE['MASTERS'][system]['PEERS'][peer][timeSlot]['TG'] = 'TG {}'.format(destination)    
                 CTABLE['MASTERS'][system]['PEERS'][peer][timeSlot]['TRX'] = crxstatus
             if action == 'END':
                 CTABLE['MASTERS'][system]['PEERS'][peer][timeSlot]['TS'] = False
@@ -716,8 +769,8 @@ def rts_update(p):
             CTABLE['PEERS'][system][timeSlot]['SUB'] = '{} ({})'.format(alias_short(sourceSub, subscriber_ids), sourceSub)
             CTABLE['PEERS'][system][timeSlot]['CALL'] = '{}'.format(alias_call(sourceSub, subscriber_ids))
             CTABLE['PEERS'][system][timeSlot]['SRC'] = sourcePeer
-            CTABLE['PEERS'][system][timeSlot]['DEST'] = 'TG {}&nbsp;&nbsp;&nbsp;&nbsp;{}'.format(destination,alias_tgid(destination,talkgroup_ids))
-            CTABLE['PEERS'][system][timeSlot]['TG'] = 'TG&nbsp;{}'.format(destination)
+            CTABLE['PEERS'][system][timeSlot]['DEST'] = 'TG {}    {}'.format(destination, alias_tgid(destination,talkgroup_ids))
+            CTABLE['PEERS'][system][timeSlot]['TG'] = 'TG {}'.format(destination)
             CTABLE['PEERS'][system][timeSlot]['TRX'] = prxstatus
         if action == 'END':
             CTABLE['PEERS'][system][timeSlot]['TS'] = False
@@ -774,7 +827,7 @@ def process_message(_bmessage):
                 start_sys=0
                 for x in sys_list:
                   if x[0]== p[3] and x[1] == p[4]:
-                     sys_list.pop()
+                     sys_list.remove(x)
                      start_sys=1
                      break
             if p[1] == 'END' and start_sys==1:
@@ -783,42 +836,17 @@ def process_message(_bmessage):
                 if LASTHEARD_INC:
                    # save QSOs to lastheared.log for which transmission duration is longer than 2 sec, 
                    # use >=0 instead of >2 if you want to record all activities
-                   if int(float(p[9])) > 2: 
-                      log_lh_message = '{},{},{},{},{},{},{},TS{},TG{},{},{},{}'.format(_now, p[9], p[0], p[1], p[3], p[5], alias_call(int(p[5]), subscriber_ids), p[7], p[8],alias_tgid(int(p[8]),talkgroup_ids),p[6], alias_short(int(p[6]), subscriber_ids))
-                      lh_logfile = open(LOG_PATH+"lastheard.log", "a", encoding="UTF-8", errors="ignore")
-                      lh_logfile.write(log_lh_message + '\n')
-                      lh_logfile.close()
-                      # Lastheard in Dashboard by SP2ONG
-                      my_list=[]
-                      n=0
-                      f = open(PATH+"templates/lastheard.html", "w", encoding="UTF-8", errors="ignore")
-                      f.write("<br><fieldset style=\"border-radius: 8px; background-color:#f0f0f0f0;margin-left:15px;margin-right:15px;font-size:14px;border-top-left-radius: 10px; border-top-right-radius: 10px;border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;\">\n")
-                      f.write("<legend><b><font color=\"#000\">&nbsp;.: Lastheard :.&nbsp;</font></b></legend>\n")
-                      f.write("<table style=\"width:100%; font: 10pt arial, sans-serif;background-color:#f1f1f1;\">\n")
-                      f.write("<TR class=\"theme_color\" style=\" height: 32px;font: 10pt arial, sans-serif;\"><TH>Date</TH><TH>Time</TH><TH>Callsign (DMR-Id)</TH><TH>Name</TH><TH>TG#</TH><TH>TG Name</TH><TH>TX (s)</TH><TH>System</TH></TR>\n")
-                      with open(LOG_PATH+"lastheard.log", "r", encoding="UTF-8", errors="ignore") as textfile:
-                          for row in islice(reversed(list(csv.reader(textfile))),200):
-                            duration=row[1]
-                            dur=str(int(float(duration.strip())))
-                            if row[10] not in my_list:
-                               if row[11].strip().isdigit() or row[11] == "N0CALL" or row[11] == "NOCALL":
-                                  qrz = "<b><font color=#464646>"+row[11]+"</font></b>"
-                               else:
-                                  qrz = "<a style=\"font: 9pt arial,sans-serif;font-weight:bold;color:#0066ff;\" target=\"_blank\" href=https://qrz.com/db/"+row[11]+">"+row[11]+"</a></b><span style=\"font: 7pt arial,sans-serif\"> ("+row[10]+")</span>"
-                               if len(row) < 13:
-                                   hline="<TR class=\"log\"><TD>"+row[0][:10]+"</TD><TD>"+row[0][11:16]+"</TD><TD>"+qrz+"</TD><TD><font color=#002d62><b></b></font></TD><TD><font color=#b5651d><b>"+row[8][2:]+"</b></font></TD><TD><font color=green><b>"+row[9]+"</b></font></TD><TD>"+dur+"</TD><TD>"+row[4]+"</TD></TR>"
-                                   my_list.append(row[10])
-                                   n += 1
-                               else:
-                                   hline="<TR class=\"log\"><TD>"+row[0][:10]+"</TD><TD>"+row[0][11:16]+"</TD><TD>"+qrz+"</TD><TD><font color=#002d62><b>"+row[12]+"</b></font></TD><TD><font color=#b5651d><b>"+row[8][2:]+"</b></font></TD><TD><font color=green><b>"+row[9]+"</b></font></TD><TD>"+dur+"</TD><TD>"+row[4]+"</TD></TR>"
-                                   my_list.append(row[10])
-                                   n += 1
-                               f.write(hline+"\n")
-                            # maximum number of lists in lastheard on the main page 
-                            if n == 15:
-                               break
-                      f.write("</table></fieldset><br>")
-                      f.close()
+                   if int(float(p[9])) > 2:
+                      with open(LOG_PATH+"lastheard.log", "a", encoding="UTF-8", errors="ignore", newline='') as lh_logfile:
+                         csv.writer(lh_logfile).writerow([
+                            _now, p[9], p[0], p[1], p[3], p[5],
+                            alias_call(int(p[5]), subscriber_ids),
+                            'TS{}'.format(p[7]), 'TG{}'.format(p[8]),
+                            alias_tgid(int(p[8]), talkgroup_ids), p[6],
+                            alias_call(int(p[6]), subscriber_ids),
+                            alias_name(int(p[6]), subscriber_ids)
+                         ])
+                      write_lastheard_html()
                 # End of Lastheard
                 # Removing obsolete entries from the sys_list (3 sec)
                 deleteList=[]
@@ -1058,7 +1086,11 @@ if __name__ == '__main__':
     reactor.connectTCP(HBLINK_IP, HBLINK_PORT, reportClientFactory())
     
 
-    # HBMonV2 does not require the use of SSL as no "sensitive data" is sent to it but if you want to use SSL:
+    # HTTPS dashboards speak wss://hostname:9000. This listener is plain ws on 9000.
+    # Put a reverse proxy in front (Apache mod_proxy / nginx) that terminates TLS
+    # and forwards WSS to ws://127.0.0.1:9000. Do not point the browser at :9000 over TLS
+    # unless you enable the commented listenSSL block below.
+    #
     # create websocket server to push content to clients via SSL https://
     # the web server apache2 should be configured with a signed certificate for example Letsencrypt
     # we need install pyOpenSSL required by twisted: pip3 install pyOpenSSL

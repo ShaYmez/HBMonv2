@@ -44,13 +44,11 @@ function tgid_users_path() {
     return '/opt/HBMonv2/tgmanager.users';
 }
 
-function tgid_http_url() {
-    $https = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
-        || (isset($_SERVER['SERVER_PORT']) && (string)$_SERVER['SERVER_PORT'] === '443')
-        || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https');
-    $scheme = $https ? 'https' : 'http';
-    $host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '127.0.0.1';
-    return $scheme.'://'.$host.'/json/talkgroup_ids.json';
+function tgid_http_candidates() {
+    return array(
+        'http://127.0.0.1/json/talkgroup_ids.json',
+        'http://127.0.0.1/json.php',
+    );
 }
 
 function tgid_record_id($record) {
@@ -124,10 +122,6 @@ function tgid_decode_json($raw) {
 }
 
 function tgid_fetch_http() {
-    if (empty($_SERVER['HTTP_HOST'])) {
-        return null;
-    }
-    $url = tgid_http_url();
     $ctx = stream_context_create(array(
         'http' => array(
             'method' => 'GET',
@@ -135,16 +129,18 @@ function tgid_fetch_http() {
             'ignore_errors' => true,
             'header' => "Accept: application/json\r\n",
         ),
-        'ssl' => array(
-            'verify_peer' => false,
-            'verify_peer_name' => false,
-        ),
     ));
-    $raw = @file_get_contents($url, false, $ctx);
-    if ($raw === false || $raw === '') {
-        return null;
+    foreach (tgid_http_candidates() as $url) {
+        $raw = @file_get_contents($url, false, $ctx);
+        if ($raw === false || $raw === '') {
+            continue;
+        }
+        $parsed = tgid_decode_json($raw);
+        if ($parsed !== null) {
+            return $parsed;
+        }
     }
-    return tgid_decode_json($raw);
+    return null;
 }
 
 function tgid_load($allow_http = true) {

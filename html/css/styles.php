@@ -134,7 +134,17 @@ a:active {
   margin: 4px 2px;
   border-radius: 8px;
   box-shadow: 0px 8px 10px rgba(0,0,0,0.1);
+  cursor: pointer;
 }
+a.button:link,
+a.button:visited,
+a.button:hover,
+a.button:active {
+  text-decoration: none;
+}
+a.button.link:link,
+a.button.link:visited,
+a.button.link:active <?php echo "{".THEME_COLOR." text-decoration:none;}\n"; ?>
 
 .link:hover {background-color:rgb(140,140,140);background: rgb(140,140,140); color:white;}  
 .dropdown:hover .dropbtn {background-color:rgb(140,140,140);background: rgb(140,140,140); color:white;} 

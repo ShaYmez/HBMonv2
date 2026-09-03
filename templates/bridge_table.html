@@ -1,19 +1,20 @@
 <fieldset style="width:1050px; background-color:#e0e0e0; margin-left:15px; margin-right:15px; font-size:14px; border-radius: 10px;">
-  <legend><b><font color="#000">&nbsp;.: Bridge status :.&nbsp;</font></b></legend>
+  <legend><b><span style="color:#000;">&nbsp;.: Bridge status :.&nbsp;</span></b></legend>
   {% if _table['BRIDGES']|length == 0 and _table['SETUP']['BRIDGES'] != False %}
   <table style='width:100%; font: 13pt arial, sans-serif'>
-    <tr style='border:none; background-color:#f9f9f9f9;'>
-      <td style='border:none;height:60px;'><font color=brown><b><center>Waiting for data from the Server ...</center></b></td>
+    <tr style='border:none; background-color:#f9f9f9;'>
+      <td style='border:none;height:60px; text-align:center;'><span style="color:brown;"><b>Waiting for data from the Server ...</b></span></td>
     </tr>
   </table>
   {% elif _table['SETUP']['BRIDGES'] == False %}
   <table style='width:100%; font: 13pt arial, sans-serif'>
-    <tr style='border:none; background-color:#f9f9f9f9;'>
-      <td style='border:none;height:60px;'><font color=brown><b><center>BRIDGES display is disabled by setup</center></b></td>
+    <tr style='border:none; background-color:#f9f9f9;'>
+      <td style='border:none;height:60px; text-align:center;'><span style="color:brown;"><b>BRIDGES display is disabled by setup</b></span></td>
     </tr>
   </table>
   {% else %}
   {% for _bridge, _bridge_data in _table['BRIDGES'].items() %}
+  <h4 style="text-align:left;">{{ _bridge }}</h4>
   <table style="width:100%; font: 10pt arial, sans-serif">
     <colgroup>
       <col style="width: 10%" />
@@ -25,7 +26,6 @@
       <col style="width: 20%" />
       <col style="width: 30%" />
     </colgroup>
-    <h4 align="left">{{ _bridge }}</h4>
     <tr style="width:100%; font: 10pt arial, sans-serif; background-color:#6A7D8E; color:white">
       <th>System</th>
       <th>Slot</th>
@@ -37,7 +37,7 @@
       <th>Disconnect TG#</th>
     </tr>
     {% for system, _system_data in _table['BRIDGES'][_bridge].items() %}
-    <tr style="background-color:#f9f9f9f9;">
+    <tr style="background-color:#f9f9f9;">
       <td>{{ system }}</td>
       <td>{{ _table['BRIDGES'][_bridge][system]['TS'] }}</td>
       <td>{{ _table['BRIDGES'][_bridge][system]['TGID'] }}</td>

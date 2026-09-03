@@ -1,16 +1,16 @@
 <?php
-$progname = basename($_SERVER['SCRIPT_FILENAME'],".php");
 include_once 'include/config.php';
 include_once 'include/version.php';
 include_once 'include/tgid_store.php';
 include_once 'include/tgmanager_auth.php';
+include_once 'include/seo.php';
 
 tgmanager_session_start();
 
 $msg = '';
 $edit_id = isset($_GET['edit']) ? intval($_GET['edit']) : 0;
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = isset($_POST['action']) ? (string)$_POST['action'] : '';
     if (!tgmanager_csrf_ok()) {
         $msg = 'Login failed.';
@@ -133,16 +133,14 @@ if ($edit_id > 0) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HBlink3 DMR Server - Talkgroup Manager</title>
-  <script type="text/javascript" src="scripts/hbmon.js"></script>
+<?php hbmon_seo_head('Talkgroup Manager', array('noindex' => true)); ?>
   <link rel="stylesheet" type="text/css" href="css/styles.php" />
-  <meta name="description" content="Copyright &copy; 2016-2025. The Regents of the K0USY Group. All rights reserved. Version SP2ONG 2019-2025 HBlink3 Dashboard" />
 </head>
 <body style="background-color: #d0d0d0;font: 10pt arial, sans-serif;">
   <div style="text-align: center;">
     <div style="width:1100px; text-align: center; margin:5px auto 0;">
       <p style="font-size: 10px; text-align: right; margin-right: 16px">Dashboard Version: <?php echo htmlspecialchars(DASH); ?></p>
-      <img src="img/HBLINK_logoV2.png?random=323527528432525.24234" alt="HBlink Logo" />
+      <img src="img/HBLINK_logoV2.png?v=<?php echo htmlspecialchars(rawurlencode(DASH)); ?>" alt="HBlink Logo" />
     </div>
     <div style="width: 1100px; margin: 0 auto;">
       <p style="text-align:center;"><span style="color:#000;font-size: 18px; font-weight:bold;"><?php echo htmlspecialchars(REPORT_NAME);?></span></p>
@@ -195,7 +193,7 @@ if ($edit_id > 0) {
           <input type="number" name="id" min="1" value="<?php echo htmlspecialchars((string)$edit_id); ?>" />
           <input type="text" name="callsign" value="<?php echo htmlspecialchars($edit_name); ?>" />
           <button type="submit" class="button link">&nbsp;Save&nbsp;</button>
-          <a href="tgmanager.php"><button type="button" class="button link">&nbsp;Cancel&nbsp;</button></a>
+          <a class="button link" href="tgmanager.php">&nbsp;Cancel&nbsp;</a>
         </form>
 <?php } else { ?>
         <form method="post" action="tgmanager.php" class="tg-form">
@@ -223,8 +221,8 @@ if ($edit_id > 0) {
             <td>&nbsp;<b>TG <?php echo htmlspecialchars((string)$id); ?></b>&nbsp;</td>
             <td><?php echo htmlspecialchars($name); ?></td>
             <td class="tg-actions">
-              <a href="tgmanager.php?edit=<?php echo htmlspecialchars((string)$id); ?>"><button type="button" class="button link">&nbsp;Edit&nbsp;</button></a>
-              <form method="post" action="tgmanager.php">
+              <a class="button link" href="tgmanager.php?edit=<?php echo htmlspecialchars((string)$id); ?>">&nbsp;Edit&nbsp;</a>
+              <form method="post" action="tgmanager.php" onsubmit="return confirm('Delete this talkgroup?');">
                 <input type="hidden" name="csrf" value="<?php echo $csrf; ?>" />
                 <input type="hidden" name="action" value="delete" />
                 <input type="hidden" name="id" value="<?php echo htmlspecialchars((string)$id); ?>" />

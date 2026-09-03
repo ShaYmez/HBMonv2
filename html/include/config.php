@@ -48,4 +48,13 @@ define("TGID_JSON", "");
 // Standalone: /opt/HBMonv2/tgmanager.users
 define("TGMANAGER_USERS", "");
 
+// Lastheard log. Empty = auto-detect Docker then standalone.
+// Docker: /var/log/hbmon/lastheard.log
+// Standalone: /opt/HBMonv2/log/lastheard.log
+define("LASTHEARD_LOG", "");
+
+// Public dashboards are indexable by default (titles, description, generator).
+// Private servers: define("SEO_INDEX", false);
+define("SEO_INDEX", true);
+
 ?>

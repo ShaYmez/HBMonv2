@@ -10,9 +10,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Talkgroup Info reads `talkgroup_ids.json`; Talkgroup Manager CRUD with CLI users
 - Dashboard version is the `VERSION` file; footer Docker version is read from hblink3-docker-install when that stack is present
+- Light SEO on by default: unique titles, description, generator/version, Open Graph, JSON-LD (SoftwareApplication; talkgroup ItemList on info.php). `SEO_INDEX` in config.php; Talkgroup Manager always noindex
 
 ### Changed
 - Standalone installs omit the footer Docker version line
+- Lastheard HTML is written next to the Jinja templates (not `PATH/templates/`)
+- Lastheard CSV uses quoted callsign and name columns
+
+### Fixed
+- WebSocket client no longer crashes on pages missing table nodes; script loads only on live pages
+- Monitor page shows live tables (`#main`); Bridges page has navigation
+- log.php finds Docker or standalone lastheard logs and no longer fatals if the file is missing
+- Concurrent QSO lastheard used `sys_list.pop()` (wrong row); now removes the matched entry
+- Invalid HTML (`<a><button>`, nested `<tr>`, `<font>`/`<center>`, 8-digit hex colours)
+- Talkgroup HTTP fallback no longer uses `HTTP_HOST` (localhost JSON only)
+- Footer Docker link points at ShaYmez/hblink3-docker-install
 
 ## [2.0.2] - 2025-12-14
 
