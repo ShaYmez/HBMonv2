@@ -182,3 +182,53 @@ a:active {
 /* Show the dropdown menu on hover */
 .dropdown:hover .dropdown-content {display: block;}
 
+.tg-login {
+  margin: 12px auto 8px;
+  display: inline-block;
+  text-align: left;
+}
+.tg-login td {
+  padding: 6px 8px;
+  border: none;
+  text-align: left;
+  font: 10pt arial, sans-serif;
+}
+.tg-login input[type=text],
+.tg-login input[type=password],
+.tg-form input[type=text],
+.tg-form input[type=number] {
+  padding: 6px 8px;
+  border: 1px solid #d0d0d0;
+  border-radius: 8px;
+  font: 10pt arial, sans-serif;
+  background: #f9f9f9;
+}
+.tg-form {
+  margin: 12px auto 4px;
+}
+.tg-form input[type=number] {
+  width: 120px;
+}
+.tg-form input[type=text] {
+  width: 420px;
+}
+.tg-msg {
+  color: #a00;
+  font-weight: bold;
+  margin: 8px 0 4px;
+}
+table.tg-table tr:nth-child(even) {
+  background-color: #fafafa;
+}
+table.tg-table tr:hover {
+  background-color: #eeeeee;
+}
+.tg-actions form {
+  display: inline;
+}
+.tg-actions .button {
+  padding: 4px 10px;
+  font-size: 12px;
+  margin: 2px;
+}
+

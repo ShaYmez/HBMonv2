@@ -43,6 +43,33 @@ php support running on the server.
     window: 45px; 1 row, 60px 2 rows, 80px 3 rows:
     define("HEIGHT_ACTIVITY","45px");
 
+    Talkgroups: set PATH = './data/' and TGID_FILE = 'talkgroup_ids.json' in
+    config.py (standalone: /opt/HBMonv2/data/talkgroup_ids.json). Do not
+    hardcode /etc/hblink3/json/. Docker (hblink3-docker-install) bind-mounts
+    that directory as /hbmon/data; Apache already publishes
+    /json/talkgroup_ids.json. Standalone can use /json.php.
+
+    Auto-detect prefers the Docker host files when they exist
+    (/etc/hblink3/json/talkgroup_ids.json, /etc/hblink3/tgmanager.users),
+    then falls back to /opt/HBMonv2. Optional overrides in
+    html/include/config.php:
+    define("TGID_JSON", "");
+    define("TGMANAGER_USERS", "");
+
+    Talkgroup Manager (info.php Login, or /tgmanager.php):
+    php /opt/HBMonv2/utils/tgmanager-passwd admin
+    bash /opt/HBMonv2/utils/tgmanager-perms.sh
+    The perms script sets 664 + www-data group on talkgroup_ids.json only
+    (owner unchanged; never chown -R data/). Users file:
+    /etc/hblink3/tgmanager.users when /etc/hblink3 exists, otherwise
+    /opt/HBMonv2/tgmanager.users.
+    The web server must be able to read the users file and write
+    talkgroup_ids.json.
+
+    Docker installer: do not copy html/ over a live dashboard. Use
+    hblink-dashboard-upgrade so menu (buttons.html) and branding
+    (include/config.php, css/styles.php, footer, existing img/) are kept.
+
     In the html directory there is a buttons.html file that you can tune to menu keys 
     
     The logo image you can replace with file image in html directory  img/logo.png

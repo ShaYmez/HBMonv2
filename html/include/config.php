@@ -38,4 +38,14 @@ define("THEME_COLOR","background-image: linear-gradient(to bottom, #337ab7 0%, #
 //define("THEME_COLOR","background-image:linear-gradient(to bottom right,#d0e98d, #4e6b00);color:black;");
 //
 
+// Talkgroup file. Empty = auto-detect (prefers Docker host path when present).
+// Docker: /etc/hblink3/json/talkgroup_ids.json
+// Standalone: /opt/HBMonv2/data/talkgroup_ids.json
+define("TGID_JSON", "");
+
+// Talkgroup Manager users file. Empty = auto-detect (prefers Docker host path).
+// Docker: /etc/hblink3/tgmanager.users
+// Standalone: /opt/HBMonv2/tgmanager.users
+define("TGMANAGER_USERS", "");
+
 ?>

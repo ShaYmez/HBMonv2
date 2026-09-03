@@ -1,7 +1,10 @@
 <?php
 $progname = basename($_SERVER['SCRIPT_FILENAME'],".php");
 include_once 'include/config.php';
-include_once 'include/version.php';?>
+include_once 'include/version.php';
+include_once 'include/tgid_store.php';
+$tg = tgid_load(true);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,28 +29,26 @@ include_once 'include/version.php';?>
     <div style="width: 1100px; margin: 0 auto;">
       <fieldset style="box-shadow:0 0 10px #999; background-color:#e0e0e0; width:1050px; margin-left:15px; margin-right:15px; font-size:14px; border-radius: 10px;">
         <legend><b><span style="color:#000;">&nbsp;.: Talk Groups :.&nbsp;</span></b></legend>
-        <table style="margin-top:5px; table-layout:fixed; font: 10pt arial, sans-serif; background-color: #f9f9f9;">
+        <table class="tg-table" style="margin-top:5px; table-layout:fixed; font: 10pt arial, sans-serif; background-color: #f9f9f9;">
           <tr class="theme_color" style="height: 32px; font: 10pt arial, sans-serif; border:0;">
             <th style='width: 150px;'>TG#</th>
-            <th style='width: 80px;'>TS 1</th>
-            <th style='width: 80px;'>TS 2</th>
-            <th style='width: 790px;'>Description</th>
+            <th style='width: 900px;'>Description</th>
           </tr>
+<?php foreach ($tg['records'] as $record) {
+    $id = tgid_record_id($record);
+    if ($id < 1) {
+        continue;
+    }
+    $name = tgid_record_callsign($record);
+?>
           <tr>
-            <td>&nbsp;<b>TG 5</b>&nbsp;</td>
-            <td>&nbsp;<b></b>&nbsp;</td>
-            <td>&nbsp;<b>D | S</b>&nbsp;</td>
-            <td>Talk group XLX750-X D-Star/DMR/C4FM.</td>
+            <td>&nbsp;<b>TG <?php echo htmlspecialchars((string)$id); ?></b>&nbsp;</td>
+            <td><?php echo htmlspecialchars($name); ?></td>
           </tr>
-          <tr>
-            <td>&nbsp;<b>TG 9999</b>&nbsp;</td>
-            <td>&nbsp;<b></b>&nbsp;</td>
-            <td>&nbsp;<b>D | S</b>&nbsp;</td>
-            <td>Echo (Parrot).</td>
-          </tr>
+<?php } ?>
         </table>
         <br>
-        <span style="text-align: center;">Hotspot: D - duplex | S - simplex</span>
+        <a href="tgmanager.php"><button class="button link">&nbsp;Login&nbsp;</button></a>
       </fieldset>
     </div>
     <br>
