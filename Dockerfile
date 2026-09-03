@@ -3,14 +3,14 @@
 #   Version 2.0.2
 ###############################################################################
 
-FROM python:alpine3.20
+FROM python:3.12-alpine3.21
 
 RUN adduser -D -u 54000 radio
 
 WORKDIR /hbmon
 
 # Install build dependencies
-RUN apk add --no-cache git gcc musl-dev libffi-dev openssl-dev cargo
+RUN apk add --no-cache git gcc musl-dev libffi-dev openssl-dev cargo pkgconfig
 
 # Copy only requirements first for better layer caching
 COPY requirements.txt .
@@ -19,7 +19,7 @@ RUN pip install --upgrade pip \
     && pip install --no-cache-dir -r requirements.txt
 
 # Remove build dependencies
-RUN apk del git gcc musl-dev libffi-dev openssl-dev cargo
+RUN apk del git gcc musl-dev libffi-dev openssl-dev cargo pkgconfig
 
 # Copy the application code
 COPY . .
