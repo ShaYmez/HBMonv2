@@ -67,8 +67,9 @@ php support running on the server.
     talkgroup_ids.json.
 
     Docker installer: do not copy html/ over a live dashboard. Use
-    hblink-dashboard-upgrade so menu (buttons.html) and branding
-    (include/config.php, css/styles.php, footer, existing img/) are kept.
+    hblink-dashboard-upgrade. That keeps include/config.php (name/theme),
+    buttons.html (menu), and existing img/ logos. Pages, css/styles.php,
+    and footer come from this repo. Compose migrate uses --keep-pages.
 
     In the html directory there is a buttons.html file that you can tune to menu keys 
     
