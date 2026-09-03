@@ -1,4 +1,4 @@
-##### Version 2.0.2 #####
+##### Version 2.1.0 #####
 #####  DOCKER CONFIG ONLY USE THIS WHEN USING A DOCKERIZED ENVIROMENT #####
 CONFIG_INC      = True                           # Include HBlink stats
 HOMEBREW_INC    = True                           # Display Homebrew Peers status

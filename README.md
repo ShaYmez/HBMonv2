@@ -3,7 +3,8 @@
 **HBmonitor is a "web dashboard" for HBlink by N0MJS. Further developed by Steve KC1AWV**
 
 ***Version - HBMonV2 by SP2ONG 2019-2022***
-***Docker Version 2.0.2 by ShaYmez M0VUB 2020-2025***
+***Dashboard version: VERSION file in this repository***
+***Docker version (footer): VERSION from hblink3-docker-install, only when that stack is installed***
 
 The main difference between HBMonitor v1 and v2 is the layout, i.e. the main page shows condensed 
 information and on the subpages, you can see the individual content that was shown on v1
@@ -37,8 +38,14 @@ php support running on the server.
     the access will then be http://hbmon.dmrserver.org 
 
     In the html/include/ directory there is a config.php file in which you 
-    set the color theme and name for your Dashboard. 
-    
+    set the color theme and name for your Dashboard.
+
+    Dashboard Version (top of each page) is the VERSION file in this
+    repository (/opt/HBMonv2/VERSION). The footer still shows SP2ONG
+    as the dashboard author. The Docker Version line is shown only when
+    this host was installed with hblink3-docker-install (compose file or
+    .installer_path present) and is read from that repo's VERSION.
+
     In the html/include/config.php you can defined height of Server Activity 
     window: 45px; 1 row, 60px 2 rows, 80px 3 rows:
     define("HEIGHT_ACTIVITY","45px");

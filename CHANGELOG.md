@@ -5,6 +5,15 @@ All notable changes to HBMonv2 will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2026-09-03
+
+### Added
+- Talkgroup Info reads `talkgroup_ids.json`; Talkgroup Manager CRUD with CLI users
+- Dashboard version is the `VERSION` file; footer Docker version is read from hblink3-docker-install when that stack is present
+
+### Changed
+- Standalone installs omit the footer Docker version line
+
 ## [2.0.2] - 2025-12-14
 
 ### Added
@@ -63,6 +72,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Version History
 
+- **2.1.0** (2026-09-03): Talkgroup manager, live talkgroup info, central VERSION file
 - **2.0.2** (2025-12-14): HTML5 compliance, security improvements, code quality enhancements
 - **1.6.9** (2024-06-14): Previous stable release
 - **Original**: HBMonitor by N0MJS, further developed by KC1AWV, adapted by SP2ONG
