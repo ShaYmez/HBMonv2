@@ -247,4 +247,26 @@ table.tg-table tr.tg-editing {
   font-size: 12px;
   margin: 2px;
 }
+.tg-api {
+  margin: 12px auto 10px;
+  text-align: left;
+  max-width: 980px;
+}
+.tg-api label {
+  display: block;
+  font: 10pt arial, sans-serif;
+  font-weight: bold;
+  color: #000;
+  margin: 0 0 6px 4px;
+}
+.tg-api input[type=text] {
+  width: 620px;
+  max-width: 70%;
+  padding: 6px 8px;
+  border: 1px solid #d0d0d0;
+  border-radius: 8px;
+  font: 10pt arial, sans-serif;
+  background: #f9f9f9;
+  color: #000;
+}
 

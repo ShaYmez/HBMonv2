@@ -53,6 +53,10 @@ define("TGMANAGER_USERS", "");
 // Standalone: /opt/HBMonv2/log/lastheard.log
 define("LASTHEARD_LOG", "");
 
+// Public talkgroup JSON URL for apps (Z3DMR, VoxDMR). Empty = auto
+// (Docker: https://<host>/json/talkgroup_ids.json, else this site's json.php).
+define("TGID_PUBLIC_URL", "");
+
 // Public dashboards are indexable by default (titles, description, generator).
 // Private servers: define("SEO_INDEX", false);
 define("SEO_INDEX", true);

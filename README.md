@@ -72,8 +72,11 @@ php support running on the server.
 
     id and tgid are the talkgroup number (same value). callsign is the
     name. Sort by numeric id. CSV download: /json.php?format=csv
-    (columns id,tgid,callsign). Talkgroup Info also has Download JSON
-    and Download CSV under the table.
+    (columns id,tgid,callsign). Talkgroup Info shows the live API URL
+    (Copy URL / Open JSON) for partners, plus Download JSON and Download CSV.
+    Docker: https://<host>/json/talkgroup_ids.json
+    Standalone / subfolder: the page's json.php. Override with
+    define("TGID_PUBLIC_URL", "https://example.com/json/talkgroup_ids.json");
 
     Auto-detect prefers the Docker host files when they exist
     (/etc/hblink3/json/talkgroup_ids.json, /etc/hblink3/tgmanager.users),
@@ -82,6 +85,7 @@ php support running on the server.
     define("TGID_JSON", "");
     define("TGMANAGER_USERS", "");
     define("LASTHEARD_LOG", "");
+    define("TGID_PUBLIC_URL", "");
     define("SEO_INDEX", true);
 
     Public pages are indexable by default (unique titles, meta description,

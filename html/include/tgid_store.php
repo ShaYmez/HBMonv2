@@ -51,6 +51,43 @@ function tgid_http_candidates() {
     );
 }
 
+function tgid_request_https() {
+    return (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+        || (isset($_SERVER['SERVER_PORT']) && (string)$_SERVER['SERVER_PORT'] === '443')
+        || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https');
+}
+
+function tgid_public_origin() {
+    $host = isset($_SERVER['HTTP_HOST']) ? preg_replace('/[^A-Za-z0-9\.\-\:\[\]]/', '', (string)$_SERVER['HTTP_HOST']) : '';
+    if ($host === '') {
+        return '';
+    }
+    return (tgid_request_https() ? 'https' : 'http').'://'.$host;
+}
+
+function tgid_is_docker_stack() {
+    return is_file('/etc/hblink3/docker-compose.yml') || is_file('/etc/hblink3/.installer_path');
+}
+
+function tgid_public_json_url() {
+    if (defined('TGID_PUBLIC_URL') && TGID_PUBLIC_URL !== '') {
+        return TGID_PUBLIC_URL;
+    }
+    $origin = tgid_public_origin();
+    if ($origin === '') {
+        return tgid_is_docker_stack() ? '/json/talkgroup_ids.json' : 'json.php';
+    }
+    if (tgid_is_docker_stack()) {
+        return $origin.'/json/talkgroup_ids.json';
+    }
+    $script = isset($_SERVER['SCRIPT_NAME']) ? str_replace('\\', '/', (string)$_SERVER['SCRIPT_NAME']) : '/info.php';
+    $dir = rtrim(dirname($script), '/');
+    if ($dir === '' || $dir === '.' || $dir === '\\') {
+        $dir = '';
+    }
+    return $origin.$dir.'/json.php';
+}
+
 function tgid_record_id($record) {
     if (!is_array($record)) {
         return 0;

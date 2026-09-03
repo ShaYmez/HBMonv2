@@ -4,6 +4,7 @@ include_once 'include/version.php';
 include_once 'include/tgid_store.php';
 include_once 'include/seo.php';
 $tg = tgid_load(true);
+$tg_api_url = tgid_public_json_url();
 $item_list = array();
 foreach ($tg['records'] as $record) {
     $id = tgid_record_id($record);
@@ -58,9 +59,42 @@ foreach ($tg['records'] as $record) {
 <?php } ?>
         </table>
         <br>
+        <div class="tg-api">
+          <label for="tg-api-url">Talkgroup API (Z3DMR, VoxDMR, other HBlink)</label>
+          <input id="tg-api-url" type="text" readonly="readonly" value="<?php echo htmlspecialchars($tg_api_url); ?>" onclick="this.select();" />
+          <button type="button" class="button link" id="tg-api-copy">&nbsp;Copy URL&nbsp;</button>
+          <a class="button link" href="<?php echo htmlspecialchars($tg_api_url); ?>" target="_blank" rel="noopener">&nbsp;Open JSON&nbsp;</a>
+        </div>
         <a class="button link" href="json.php?download=1">&nbsp;Download JSON&nbsp;</a>
         &nbsp;
         <a class="button link" href="json.php?format=csv&amp;download=1">&nbsp;Download CSV&nbsp;</a>
+        <script type="text/javascript">
+          (function () {
+            var btn = document.getElementById('tg-api-copy');
+            var input = document.getElementById('tg-api-url');
+            if (!btn || !input) {
+              return;
+            }
+            btn.onclick = function () {
+              var url = input.value;
+              function done() {
+                btn.textContent = ' Copied ';
+                setTimeout(function () { btn.textContent = ' Copy URL '; }, 1500);
+              }
+              if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(url).then(done, function () {
+                  input.select();
+                  document.execCommand('copy');
+                  done();
+                });
+              } else {
+                input.select();
+                document.execCommand('copy');
+                done();
+              }
+            };
+          })();
+        </script>
       </fieldset>
     </div>
     <br>
