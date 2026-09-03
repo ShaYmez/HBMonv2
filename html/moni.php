@@ -28,7 +28,7 @@ include_once 'include/version.php';?>
     </div>
     <!-- LOG monitor -->
     <div style="width: 1100px; margin: 0 auto;">
-      <fieldset style="width: 1045px; margin-left:0; margin-right:0; font-size:14px; border-radius: 10px;">
+      <fieldset style="width:1050px; margin-left:15px; margin-right:15px; font-size:14px; border-radius: 10px;">
         <legend><b><span style="color:#000;">&nbsp;.: Call Log :.&nbsp;</span></b></legend>
         <pre id="log" style="height: 40em; text-align: left; overflow-y: auto; font-size:12px; background-color: #000000; color:#729fcf;"></pre>
       </fieldset>

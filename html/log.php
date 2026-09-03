@@ -19,13 +19,13 @@ include_once 'include/version.php';?>
       <p style="font-size: 10px; text-align: right; margin-right: 16px">Dashboard Version: <?php echo htmlspecialchars(DASH); ?></p>
       <img src="img/HBLINK_logoV2.png?random=323527528432525.24234" alt="HBlink Logo" />
     </div>
-    <div style="width: 1150px; margin: 0 auto;">
+    <div style="width: 1100px; margin: 0 auto;">
       <p style="text-align:center;"><span style="color:#000;font-size: 18px; font-weight:bold;"><?php echo htmlspecialchars(REPORT_NAME);?></span></p>
     </div>
     <?php include_once 'buttons.html'; ?>
     <div style="width: 1100px; margin: 0 auto;">
       <div style="overflow-x:auto;">
-        <fieldset style="background-color:#e0e0e0; margin:15px; font-size:14px; border-radius: 10px;">
+        <fieldset style="width:1050px; background-color:#e0e0e0; margin-left:15px; margin-right:15px; font-size:14px; border-radius: 10px;">
           <table style="border-collapse: collapse; border: 1px solid #C1DAD7; width: 100%; background-color:#f0f0f0;">
             <thead><tr><th colspan="9" style="height: 30px; font-size:18px; font-weight:bold;">LastHeard</th></tr></thead>
             <tr class="theme_color" style="height:35px; text-align: center; font-weight:bold;"><th>&nbsp;&nbsp;Date</th><th>&nbsp;Time</th><th>&nbsp;Callsign (DMR-Id)</th><th>&nbsp;&nbsp;Name</th><th>&nbsp;TG#</th><th>&nbsp;&nbsp;TG Name</th><th>TX (s)&nbsp;</th><th>Source</th>

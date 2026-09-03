@@ -1,5 +1,5 @@
 
-<fieldset style="width:1045px; background-color:#f1f1f1; margin-left:5px; margin-right:5px; font-size:14px; border-radius: 10px;">
+<fieldset style="width:1050px; background-color:#f1f1f1; margin-left:15px; margin-right:15px; font-size:14px; border-radius: 10px;">
   <legend><b><span style="color:#000;">&nbsp;.: Server Activity :.&nbsp;</span></b></legend>
   {% if _table['MASTERS']|length >0 %}
   <table style="width:100%; background-color:#f0f0f0; border:none !important; border-collapse:collapse;">
@@ -63,7 +63,7 @@
 {% if _table['SETUP']['LASTHEARD'] == True %}
   {% include 'lastheard.html' ignore missing %}
 {% endif %}
-<fieldset style="background-color:#f0f0f0; margin-left:15px; margin-right:15px; font-size:14px; border-radius: 10px;">
+<fieldset style="width:1050px; background-color:#f0f0f0; margin-left:15px; margin-right:15px; font-size:14px; border-radius: 10px;">
   <legend><b><span style="color:#000;">&nbsp;.: Connected to Server :.&nbsp;</span></b></legend>
   <table style="table-layout:fixed; width:100%; font: 10pt arial, sans-serif; font-weight:600; margin-top:5px; margin-bottom:5px; border:none !important; border-collapse:collapse;">
     {% if _table['MASTERS']|length >0 %}
