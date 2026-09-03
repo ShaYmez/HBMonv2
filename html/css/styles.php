@@ -204,7 +204,10 @@ a:active {
   background: #f9f9f9;
 }
 .tg-form {
-  margin: 12px auto 4px;
+  margin: 8px auto 10px;
+}
+.tg-logout {
+  margin: 4px auto 0;
 }
 .tg-form input[type=number] {
   width: 120px;
@@ -222,6 +225,9 @@ table.tg-table tr:nth-child(even) {
 }
 table.tg-table tr:hover {
   background-color: #eeeeee;
+}
+table.tg-table tr.tg-editing {
+  background-color: #e8eef5;
 }
 .tg-actions form {
   display: inline;

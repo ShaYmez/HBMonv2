@@ -29,6 +29,7 @@ $tg = tgid_load(true);
     <div style="width: 1100px; margin: 0 auto;">
       <fieldset style="box-shadow:0 0 10px #999; background-color:#e0e0e0; width:1050px; margin-left:15px; margin-right:15px; font-size:14px; border-radius: 10px;">
         <legend><b><span style="color:#000;">&nbsp;.: Talk Groups :.&nbsp;</span></b></legend>
+        <a href="tgmanager.php"><button class="button link">&nbsp;Login&nbsp;</button></a>
         <table class="tg-table" style="margin-top:5px; table-layout:fixed; font: 10pt arial, sans-serif; background-color: #f9f9f9;">
           <tr class="theme_color" style="height: 32px; font: 10pt arial, sans-serif; border:0;">
             <th style='width: 150px;'>TG#</th>
@@ -47,8 +48,6 @@ $tg = tgid_load(true);
           </tr>
 <?php } ?>
         </table>
-        <br>
-        <a href="tgmanager.php"><button class="button link">&nbsp;Login&nbsp;</button></a>
       </fieldset>
     </div>
     <br>

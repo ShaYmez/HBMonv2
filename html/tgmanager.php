@@ -113,6 +113,20 @@ if (!$logged_in && $msg === '' && !tgmanager_has_users()) {
 }
 $csrf = htmlspecialchars(tgmanager_csrf_token());
 $tg = tgid_load(true);
+$edit_name = '';
+if ($edit_id > 0) {
+    $found = false;
+    foreach ($tg['records'] as $record) {
+        if (tgid_record_id($record) === $edit_id) {
+            $edit_name = tgid_record_callsign($record);
+            $found = true;
+            break;
+        }
+    }
+    if (!$found) {
+        $edit_id = 0;
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -168,6 +182,30 @@ $tg = tgid_load(true);
 <?php if ($msg !== '') { ?>
         <p class="tg-msg"><?php echo htmlspecialchars($msg); ?></p>
 <?php } ?>
+        <form method="post" action="tgmanager.php" class="tg-logout">
+          <input type="hidden" name="csrf" value="<?php echo $csrf; ?>" />
+          <input type="hidden" name="action" value="logout" />
+          <button type="submit" class="button link">&nbsp;Logout&nbsp;</button>
+        </form>
+<?php if ($edit_id > 0) { ?>
+        <form method="post" action="tgmanager.php" class="tg-form">
+          <input type="hidden" name="csrf" value="<?php echo $csrf; ?>" />
+          <input type="hidden" name="action" value="edit" />
+          <input type="hidden" name="orig_id" value="<?php echo htmlspecialchars((string)$edit_id); ?>" />
+          <input type="number" name="id" min="1" value="<?php echo htmlspecialchars((string)$edit_id); ?>" />
+          <input type="text" name="callsign" value="<?php echo htmlspecialchars($edit_name); ?>" />
+          <button type="submit" class="button link">&nbsp;Save&nbsp;</button>
+          <a href="tgmanager.php"><button type="button" class="button link">&nbsp;Cancel&nbsp;</button></a>
+        </form>
+<?php } else { ?>
+        <form method="post" action="tgmanager.php" class="tg-form">
+          <input type="hidden" name="csrf" value="<?php echo $csrf; ?>" />
+          <input type="hidden" name="action" value="add" />
+          <input type="number" name="id" min="1" placeholder="TG#" />
+          <input type="text" name="callsign" placeholder="Description" />
+          <button type="submit" class="button link">&nbsp;Add&nbsp;</button>
+        </form>
+<?php } ?>
         <table class="tg-table" style="margin-top:5px; table-layout:fixed; font: 10pt arial, sans-serif; background-color: #f9f9f9;">
           <tr class="theme_color" style="height: 32px; font: 10pt arial, sans-serif; border:0;">
             <th style="width: 150px;">TG#</th>
@@ -180,23 +218,8 @@ $tg = tgid_load(true);
         continue;
     }
     $name = tgid_record_callsign($record);
-    if ($edit_id === $id) {
 ?>
-          <tr>
-            <td colspan="3">
-              <form method="post" action="tgmanager.php" class="tg-form">
-                <input type="hidden" name="csrf" value="<?php echo $csrf; ?>" />
-                <input type="hidden" name="action" value="edit" />
-                <input type="hidden" name="orig_id" value="<?php echo htmlspecialchars((string)$id); ?>" />
-                <input type="number" name="id" min="1" value="<?php echo htmlspecialchars((string)$id); ?>" />
-                <input type="text" name="callsign" value="<?php echo htmlspecialchars($name); ?>" />
-                <button type="submit" class="button link">&nbsp;Save&nbsp;</button>
-                <a href="tgmanager.php"><button type="button" class="button link">&nbsp;Cancel&nbsp;</button></a>
-              </form>
-            </td>
-          </tr>
-<?php } else { ?>
-          <tr>
+          <tr<?php echo ($edit_id === $id) ? ' class="tg-editing"' : ''; ?>>
             <td>&nbsp;<b>TG <?php echo htmlspecialchars((string)$id); ?></b>&nbsp;</td>
             <td><?php echo htmlspecialchars($name); ?></td>
             <td class="tg-actions">
@@ -209,22 +232,8 @@ $tg = tgid_load(true);
               </form>
             </td>
           </tr>
-<?php }
-} ?>
+<?php } ?>
         </table>
-        <form method="post" action="tgmanager.php" class="tg-form">
-          <input type="hidden" name="csrf" value="<?php echo $csrf; ?>" />
-          <input type="hidden" name="action" value="add" />
-          <input type="number" name="id" min="1" placeholder="TG#" />
-          <input type="text" name="callsign" placeholder="Description" />
-          <button type="submit" class="button link">&nbsp;Add&nbsp;</button>
-        </form>
-        <br>
-        <form method="post" action="tgmanager.php">
-          <input type="hidden" name="csrf" value="<?php echo $csrf; ?>" />
-          <input type="hidden" name="action" value="logout" />
-          <button type="submit" class="button link">&nbsp;Logout&nbsp;</button>
-        </form>
       </fieldset>
     </div>
 <?php } ?>
