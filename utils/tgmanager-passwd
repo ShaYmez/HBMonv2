@@ -68,12 +68,21 @@ function write_users($path, $users) {
         fwrite(STDERR, "Cannot write: ".$path."\n");
         return false;
     }
-    @chmod($path, 0640);
-    if (function_exists('posix_getgrnam') && function_exists('posix_chgrp')) {
-        $gr = posix_getgrnam('www-data');
-        if ($gr) {
-            @posix_chgrp($path, $gr['gid']);
+    $grp = 'www-data';
+    if (function_exists('posix_getgrnam')) {
+        $gr = @posix_getgrnam($grp);
+        if (!$gr) {
+            $grp = '';
         }
+    }
+    if ($grp !== '') {
+        if (!@chgrp($path, $grp)) {
+            @chmod($path, 0644);
+        } else {
+            @chmod($path, 0640);
+        }
+    } else {
+        @chmod($path, 0644);
     }
     return true;
 }
