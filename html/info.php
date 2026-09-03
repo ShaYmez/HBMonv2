@@ -48,6 +48,10 @@ $tg = tgid_load(true);
           </tr>
 <?php } ?>
         </table>
+        <br>
+        <a href="json.php?download=1"><button class="button link">&nbsp;Download JSON&nbsp;</button></a>
+        &nbsp;
+        <a href="json.php?format=csv&amp;download=1"><button class="button link">&nbsp;Download CSV&nbsp;</button></a>
       </fieldset>
     </div>
     <br>

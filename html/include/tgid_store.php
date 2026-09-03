@@ -250,3 +250,24 @@ function tgid_save($records, $meta = array()) {
     fclose($fp);
     return $ok;
 }
+
+function tgid_csv_field($value) {
+    $value = (string)$value;
+    if (strpos($value, ',') !== false || strpos($value, '"') !== false || strpos($value, "\n") !== false) {
+        return '"'.str_replace('"', '""', $value).'"';
+    }
+    return $value;
+}
+
+function tgid_csv_export($records) {
+    $out = "id,tgid,callsign\n";
+    foreach (tgid_sort_records($records) as $record) {
+        $id = tgid_record_id($record);
+        if ($id < 1) {
+            continue;
+        }
+        $tgid = (isset($record['tgid']) && $record['tgid'] !== '') ? intval($record['tgid']) : $id;
+        $out .= $id.','.$tgid.','.tgid_csv_field(tgid_record_callsign($record))."\n";
+    }
+    return $out;
+}

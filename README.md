@@ -56,6 +56,25 @@ php support running on the server.
     that directory as /hbmon/data; Apache already publishes
     /json/talkgroup_ids.json. Standalone can use /json.php.
 
+    Talkgroup list for other apps (Z3DMR, VoxDMR, QSO 1, other HBlink
+    servers): GET the JSON. CORS is open. Cache-Control: no-cache.
+
+        Docker stack:  https://<host>/json/talkgroup_ids.json
+        All installs:  https://<host>/json.php
+                       (subfolder: https://<host>/hbmon/json.php)
+
+        {
+          "count": 2,
+          "results": [
+            { "id": 9, "tgid": 9, "callsign": "Local" }
+          ]
+        }
+
+    id and tgid are the talkgroup number (same value). callsign is the
+    name. Sort by numeric id. CSV download: /json.php?format=csv
+    (columns id,tgid,callsign). Talkgroup Info also has Download JSON
+    and Download CSV under the table.
+
     Auto-detect prefers the Docker host files when they exist
     (/etc/hblink3/json/talkgroup_ids.json, /etc/hblink3/tgmanager.users),
     then falls back to /opt/HBMonv2. Optional overrides in
