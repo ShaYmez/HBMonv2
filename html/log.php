@@ -33,21 +33,22 @@ function lastheard_field($data, $i) {
   <link rel="stylesheet" type="text/css" href="css/styles.php" />
 </head>
 <body style="background-color: #d0d0d0;font: 10pt arial, sans-serif;">
-  <div style="text-align: center;">
-    <div style="width:1100px; text-align: center; margin:5px auto 0;">
-      <p style="font-size: 10px; text-align: right; margin-right: 16px">Dashboard Version: <?php echo htmlspecialchars(DASH); ?></p>
-      <img src="img/HBLINK_logoV2.png?v=<?php echo htmlspecialchars(rawurlencode(DASH)); ?>" alt="HBlink Logo" />
+  <div class="hbmon-page">
+    <div class="hbmon-shell hbmon-header">
+      <p class="hbmon-header-version" style="font-size: 10px; text-align: right; margin-right: 16px">Dashboard Version: <?php echo htmlspecialchars(DASH); ?></p>
+      <img class="hbmon-logo" src="img/HBLINK_logoV2.png?v=<?php echo htmlspecialchars(rawurlencode(DASH)); ?>" alt="HBlink Logo" />
     </div>
-    <div style="width: 1100px; margin: 0 auto;">
-      <p style="text-align:center;"><span style="color:#000;font-size: 18px; font-weight:bold;"><?php echo htmlspecialchars(REPORT_NAME);?></span></p>
+    <div class="hbmon-shell">
+      <p class="hbmon-report-name" style="text-align:center;"><span style="color:#000;font-size: 18px; font-weight:bold;"><?php echo htmlspecialchars(REPORT_NAME);?></span></p>
     </div>
     <?php include_once 'buttons.html'; ?>
-    <div style="width: 1100px; margin: 0 auto;">
-      <div style="overflow-x:auto;">
-        <fieldset style="width:1050px; background-color:#e0e0e0; margin-left:15px; margin-right:15px; font-size:14px; border-radius: 10px;">
-          <table style="border-collapse: collapse; border: 1px solid #C1DAD7; width: 100%; background-color:#f0f0f0;">
+    <main class="hbmon-shell">
+      <div class="hbmon-scroll">
+        <fieldset class="hbmon-panel" style="background-color:#e0e0e0; font-size:14px; border-radius: 10px;">
+          <div class="hbmon-mobile-only hbmon-card-header">LastHeard</div>
+          <table class="hbmon-responsive-table hbmon-lastheard-table" style="border-collapse: collapse; border: 1px solid #C1DAD7; width: 100%; background-color:#f0f0f0;">
             <thead><tr><th colspan="8" style="height: 30px; font-size:18px; font-weight:bold;">LastHeard</th></tr></thead>
-            <tr class="theme_color" style="height:35px; text-align: center; font-weight:bold;"><th>&nbsp;&nbsp;Date</th><th>&nbsp;Time</th><th>&nbsp;Callsign (DMR-Id)</th><th>&nbsp;&nbsp;Name</th><th>&nbsp;TG#</th><th>&nbsp;&nbsp;TG Name</th><th>TX (s)&nbsp;</th><th>Source</th>
+            <tbody><tr class="theme_color" style="height:35px; text-align: center; font-weight:bold;"><th>&nbsp;&nbsp;Date</th><th>&nbsp;Time</th><th>&nbsp;Callsign (DMR-Id)</th><th>&nbsp;&nbsp;Name</th><th>&nbsp;TG#</th><th>&nbsp;&nbsp;TG Name</th><th>TX (s)&nbsp;</th><th>Source</th>
             </tr>
 <?php
 $log_path = lastheard_log_path();
@@ -77,23 +78,23 @@ if ($handle) {
             $user_id = '-';
         }
         echo '<tr class="log" style="height:25px; text-align: center;">';
-        echo '<td class="log">&nbsp;'.htmlspecialchars($day.'.'.$month.'.'.$year).'</td>';
-        echo '<td class="log">&nbsp;'.htmlspecialchars(substr($stamp, 11, 5)).'</td>';
-        echo '<td class="log"><span style="color:#0066ff;"><b>&nbsp;'.htmlspecialchars($user_call).'</b></span>';
+        echo '<td class="log" data-label="Date">&nbsp;'.htmlspecialchars($day.'.'.$month.'.'.$year).'</td>';
+        echo '<td class="log" data-label="Time">&nbsp;'.htmlspecialchars(substr($stamp, 11, 5)).'</td>';
+        echo '<td class="log" data-label="Callsign (DMR-Id)"><span style="color:#0066ff;"><b>&nbsp;'.htmlspecialchars($user_call).'</b></span>';
         echo '<span style="font-size:smaller;"> ('.htmlspecialchars($user_id).')</span></td>';
-        echo '<td class="log"><span style="color:#002d62;"><b>'.htmlspecialchars(trim($user_name)).'</b></span></td>';
-        echo '<td class="log"><span style="color:#b5651d;"><b>'.htmlspecialchars($tg).'</b></span></td>';
-        echo '<td class="log"><span style="color:green;"><b>&nbsp;'.htmlspecialchars($tgname).'</b></span></td>';
-        echo '<td class="log" style="text-align:center;">'.htmlspecialchars((string)round((float)$duration)).'</td>';
-        echo '<td class="log">'.htmlspecialchars($system).'</td>';
+        echo '<td class="log" data-label="Name"><span style="color:#002d62;"><b>'.htmlspecialchars(trim($user_name)).'</b></span></td>';
+        echo '<td class="log" data-label="TG#"><span style="color:#b5651d;"><b>'.htmlspecialchars($tg).'</b></span></td>';
+        echo '<td class="log" data-label="TG Name"><span style="color:green;"><b>&nbsp;'.htmlspecialchars($tgname).'</b></span></td>';
+        echo '<td class="log" data-label="TX (s)" style="text-align:center;">'.htmlspecialchars((string)round((float)$duration)).'</td>';
+        echo '<td class="log" data-label="Source">'.htmlspecialchars($system).'</td>';
         echo "</tr>\n";
     }
 }
 ?>
-          </table>
+          </tbody></table>
         </fieldset>
       </div>
-    </div>
+    </main>
     <!--footer-->
     <?php include_once 'elements/footer.php'; ?>
     <!--//footer-->

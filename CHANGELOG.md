@@ -16,10 +16,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Standalone installs omit the footer Docker version line
 - Lastheard HTML is written next to the Jinja templates (not `PATH/templates/`)
 - Lastheard CSV uses quoted callsign and name columns
+- Dashboard pages are fluid below 1120px, with a compact mobile menu, touch-friendly forms/logs, and phone card views for live status, Lastheard, and talkgroup data; the 1100px desktop layout is unchanged
 
 ### Fixed
 - WebSocket client no longer crashes on pages missing table nodes; script loads only on live pages
-- Monitor page shows live tables (`#main`); Bridges page has navigation
+- Monitor page remains log-only; Bridges page has navigation
 - log.php finds Docker or standalone lastheard logs and no longer fatals if the file is missing
 - Concurrent QSO lastheard used `sys_list.pop()` (wrong row); now removes the matched entry
 - Invalid HTML (`<a><button>`, nested `<tr>`, `<font>`/`<center>`, 8-digit hex colours)

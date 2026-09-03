@@ -1,4 +1,8 @@
-<div style="width: 1100px; margin: 0 auto;">
+<nav class="hbmon-shell hbmon-nav" aria-label="Dashboard navigation">
+  <button class="button link hbmon-nav-toggle" type="button" aria-expanded="false" aria-controls="hbmon-nav-links">
+    <span aria-hidden="true">&#9776;</span>&nbsp;Menu
+  </button>
+  <div class="hbmon-nav-links" id="hbmon-nav-links">
   <!-- HBMonv2 buttons HTML code -->
   <a class="button link" href="index.php">&nbsp;Dashboard&nbsp;</a>
   <!--
@@ -15,21 +19,21 @@
     </div>
   </div>
   -->
-  &nbsp;
+  <span class="hbmon-nav-separator">&nbsp;</span>
   <a class="button link" href="masters.php">&nbsp;Masters&nbsp;</a>
-  &nbsp;
+  <span class="hbmon-nav-separator">&nbsp;</span>
   <a class="button link" href="peers.php">&nbsp;Peers&nbsp;</a>
-  &nbsp;
+  <span class="hbmon-nav-separator">&nbsp;</span>
   <a class="button link" href="opb.php">&nbsp;OpenBridge&nbsp;</a>
-  &nbsp;
+  <span class="hbmon-nav-separator">&nbsp;</span>
   <a class="button link" href="moni.php">&nbsp;Monitor&nbsp;</a>
-  &nbsp;
+  <span class="hbmon-nav-separator">&nbsp;</span>
   <a class="button link" href="info.php">&nbsp;Talkgroup Info&nbsp;</a>
-  &nbsp;
+  <span class="hbmon-nav-separator">&nbsp;</span>
   <a class="button link" title="Lastheard long list" href="log.php">&nbsp;Lastheard&nbsp;</a>
-  &nbsp;
+  <span class="hbmon-nav-separator">&nbsp;</span>
   <a class="button link" href="sysinfo.php">&nbsp;System Info&nbsp;</a>
-  &nbsp;
+  <span class="hbmon-nav-separator">&nbsp;</span>
   <!--
   &nbsp;
   <a class="button link" href="bridges.php">&nbsp;Bridges&nbsp;</a>
@@ -56,5 +60,20 @@
     </div>
   </div>
   -->
-</div>
+  </div>
+</nav>
 <p></p>
+<script>
+(function () {
+  var toggle = document.querySelector('.hbmon-nav-toggle');
+  var links = document.getElementById('hbmon-nav-links');
+  if (!toggle || !links) {
+    return;
+  }
+  toggle.addEventListener('click', function () {
+    var expanded = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+    links.classList.toggle('is-open', !expanded);
+  });
+})();
+</script>

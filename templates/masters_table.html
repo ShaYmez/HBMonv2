@@ -1,7 +1,8 @@
-<fieldset style="width:1050px; background-color:#e0e0e0; margin-left:15px; margin-right:15px; font-size:14px; border-radius: 10px;">
+<fieldset class="hbmon-panel" style="background-color:#e0e0e0; font-size:14px; border-radius: 10px;">
   <legend><b><span style="color:#000;">&nbsp;.: Masters status :.&nbsp;</span></b></legend>
   {% if _table['MASTERS']|length >0 %}
-  <table style="table-layout:fixed;width:100%; font: 10pt arial, sans-serif; margin-top:5px; margin-bottom:5px;">
+  <div class="hbmon-desktop-only hbmon-scroll">
+  <table class="hbmon-table-desktop" style="table-layout:fixed;width:100%; font: 10pt arial, sans-serif; margin-top:5px; margin-bottom:5px;">
     <tr class="theme_color" style="font: 10pt arial, sans-serif;">
       <th style='width: 120px;'>HB Protocol<br>Master Systems</th>
       <th style='width: 160px;'>Callsign (DMR Id)<br>Info</th>
@@ -44,6 +45,38 @@
     {% endif %}
     {% endfor %}
   </table>
+  </div>
+  <div class="hbmon-mobile-only hbmon-touch-list">
+    {% for _master in _table['MASTERS'] %}
+    {% if ((_table['MASTERS'][_master]['PEERS']|length==0 or _table['MASTERS'][_master]['PEERS']|length>0) and emaster==True) or (_table['MASTERS'][_master]['PEERS']|length>0 and emaster==False) %}
+    <section class="hbmon-card">
+      <div class="hbmon-card-header">{{ _master }}{% if _table['MASTERS'][_master]['REPEAT'] %} · {{ _table['MASTERS'][_master]['REPEAT'] }}{% endif %}</div>
+      {% for _client, _cdata in _table['MASTERS'][_master]['PEERS'].items() %}
+      <article class="hbmon-touch-card">
+        <div><b style="color:#0066ff;">{{ _cdata['CALLSIGN'] }}</b> <span>(DMR {{ _client }})</span></div>
+        <div class="hbmon-card-meta">
+          <span class="hbmon-card-label">Connected</span><span class="hbmon-card-value">{{ _cdata['CONNECTED'] }}</span>
+          <span class="hbmon-card-label">Location</span><span class="hbmon-card-value">{{ _cdata['LOCATION'] }}</span>
+          <span class="hbmon-card-label">Type</span><span class="hbmon-card-value">{{ 'IP Network' if _cdata['RX_FREQ'] == 'N/A' and _cdata['TX_FREQ'] == 'N/A' else 'Radio (' ~ _cdata['SLOTS'] ~ ')' }}</span>
+          <span class="hbmon-card-label">Software</span><span class="hbmon-card-value">{{ _cdata['SOFTWARE_ID'] }}</span>
+          <span class="hbmon-card-label">Hardware</span><span class="hbmon-card-value">{{ _cdata['PACKAGE_ID'] }}</span>
+        </div>
+        {% for _slot in [1, 2] %}
+        <div class="hbmon-slot" style="background-color:#{{ _cdata[_slot]['BGCOLOR'] if _cdata[_slot]['BGCOLOR']|length !=0 else 'f9f9f9' }}; color:#{{ _cdata[_slot]['COLOR'] if _cdata[_slot]['COLOR']|length !=0 else '000000' }}">
+          <div class="hbmon-slot-head"><span>TS{{ _slot }}</span><span>{{ _cdata[_slot]['TRX'] }}</span></div>
+          <div class="hbmon-slot-row"><span class="hbmon-card-label">Source</span><span>{{ _cdata[_slot]['SUB'] or 'Idle' }}</span></div>
+          <div class="hbmon-slot-row"><span class="hbmon-card-label">Destination</span><span>{{ _cdata[_slot]['DEST'] or '—' }}</span></div>
+        </div>
+        {% endfor %}
+      </article>
+      {% endfor %}
+      {% if _table['MASTERS'][_master]['PEERS']|length == 0 %}
+      <div class="hbmon-touch-card">No connected peers</div>
+      {% endif %}
+    </section>
+    {% endif %}
+    {% endfor %}
+  </div>
   {% else %}
   <table style='width:100%; font: 13pt arial, sans-serif; margin-top:8px;margin-bottom:8px;'>
     <tr style='border:none; background-color:#f9f9f9;'>

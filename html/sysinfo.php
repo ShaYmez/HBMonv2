@@ -13,13 +13,13 @@ include_once 'include/seo.php';
   <link rel="stylesheet" type="text/css" href="css/styles.php" />
 </head>
 <body style="background-color: #d0d0d0;font: 10pt arial, sans-serif;">
-  <div style="text-align: center;">
-    <div style="width:1100px; text-align: center; margin:5px auto 0;">
-      <p style="font-size: 10px; text-align: right; margin-right: 16px">Dashboard Version: <?php echo htmlspecialchars(DASH); ?></p>
-      <img src="img/HBLINK_logoV2.png?v=<?php echo htmlspecialchars(rawurlencode(DASH)); ?>" alt="HBlink Logo" />
+  <div class="hbmon-page">
+    <div class="hbmon-shell hbmon-header">
+      <p class="hbmon-header-version" style="font-size: 10px; text-align: right; margin-right: 16px">Dashboard Version: <?php echo htmlspecialchars(DASH); ?></p>
+      <img class="hbmon-logo" src="img/HBLINK_logoV2.png?v=<?php echo htmlspecialchars(rawurlencode(DASH)); ?>" alt="HBlink Logo" />
     </div>
-    <div style="width: 1100px; margin: 0 auto;">
-      <p style="text-align:center;"><span style="color:#000;font-size: 18px; font-weight:bold;"><?php echo htmlspecialchars(REPORT_NAME);?></span></p>
+    <div class="hbmon-shell">
+      <p class="hbmon-report-name" style="text-align:center;"><span style="color:#000;font-size: 18px; font-weight:bold;"><?php echo htmlspecialchars(REPORT_NAME);?></span></p>
     </div>
     <?php include_once 'buttons.html'; ?>
     <!--
@@ -27,7 +27,8 @@ include_once 'include/seo.php';
       <a class="button link" target="_blank" href="esm/">&nbsp;eZ Server Monitor&nbsp;</a>
     </div>
     -->
-    <fieldset style="background-color:#e0e0e0; display:inline-block; margin-left:20px; margin-right:20px; font-size:14px; border-radius: 10px;">
+    <main class="hbmon-shell">
+    <fieldset class="hbmon-system-info" style="background-color:#e0e0e0; display:inline-block; margin-left:20px; margin-right:20px; font-size:14px; border-radius: 10px;">
       <legend><b><span style="color:#000;">&nbsp;.: System Info :.&nbsp;</span></b></legend>
       <div style="text-align: center;">
         <!-- Temp CPU -->
@@ -43,6 +44,7 @@ include_once 'include/seo.php';
       </div>
       <p><span style="color:blue;"><b>BLUE</b></span> Outgoing Traffic in Bits per Second | <span style="color:green;"><b>GREEN</b></span> Incoming Traffic in Bits per Second</p>
     </fieldset>
+    </main>
     <br>
     <!--footer-->
     <?php include_once 'elements/footer.php'; ?>

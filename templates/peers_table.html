@@ -1,7 +1,8 @@
-<fieldset style="width:1050px; background-color:#e0e0e0; margin-left:15px; margin-right:15px; font-size:14px; border-radius: 10px;">
+<fieldset class="hbmon-panel" style="background-color:#e0e0e0; font-size:14px; border-radius: 10px;">
   <legend><b><span style="color:#000;">&nbsp;.: Peers status :.&nbsp;</span></b></legend>
   {% if _table['PEERS']|length >0 %}
-  <table style="table-layout:fixed;width:100%; font: 10pt arial, sans-serif; margin-top:5px;margin-bottom:5px;">
+  <div class="hbmon-desktop-only hbmon-scroll">
+  <table class="hbmon-table-desktop" style="table-layout:fixed;width:100%; font: 10pt arial, sans-serif; margin-top:5px;margin-bottom:5px;">
     <tr class="theme_color" style="font: 10pt arial, sans-serif;">
       <th style='width: 120px;'>HB Protocol<br>Peer Systems</th>
       <th style='width: 160px;'>Callsign (DMR Id)<br>Info</th>
@@ -26,6 +27,29 @@
     </tr>
     {% endfor %}
   </table>
+  </div>
+  <div class="hbmon-mobile-only hbmon-touch-list">
+    {% for _peer, _pdata in _table['PEERS'].items() %}
+    <article class="hbmon-card">
+      <div class="hbmon-card-header">{{ _peer }}</div>
+      <div><b style="color:#0066ff;">{{ _table['PEERS'][_peer]['CALLSIGN'] }}</b> <span>(DMR {{ _table['PEERS'][_peer]['RADIO_ID'] }})</span></div>
+      <div class="hbmon-card-meta">
+        <span class="hbmon-card-label">Mode</span><span class="hbmon-card-value">{{ _table['PEERS'][_peer]['MODE'] }}</span>
+        <span class="hbmon-card-label">Status</span><span class="hbmon-card-value">{{ 'Connected' if _table['PEERS'][_peer]['STATS']['CONNECTION'] == 'YES' else 'Disconnected' }}</span>
+        <span class="hbmon-card-label">TX / RX / Lost</span><span class="hbmon-card-value">{{ _table['PEERS'][_peer]['STATS']['PINGS_SENT'] }} / {{ _table['PEERS'][_peer]['STATS']['PINGS_ACKD'] }} / {{ _table['PEERS'][_peer]['STATS']['PINGS_SENT'] - _table['PEERS'][_peer]['STATS']['PINGS_ACKD'] }}</span>
+        <span class="hbmon-card-label">Location</span><span class="hbmon-card-value">{{ _table['PEERS'][_peer]['LOCATION'] }}</span>
+        <span class="hbmon-card-label">Linked slots</span><span class="hbmon-card-value">{{ _table['PEERS'][_peer]['SLOTS'] }}</span>
+      </div>
+      {% for _slot in [1, 2] %}
+      <div class="hbmon-slot" style="background-color:#{{ _pdata[_slot]['BGCOLOR'] if _pdata[_slot]['BGCOLOR']|length !=0 else 'f9f9f9' }}; color:#{{ _pdata[_slot]['COLOR'] if _pdata[_slot]['COLOR']|length !=0 else '000000' }}">
+        <div class="hbmon-slot-head"><span>TS{{ _slot }}</span><span>{{ _pdata[_slot]['TRX'] }}</span></div>
+        <div class="hbmon-slot-row"><span class="hbmon-card-label">Source</span><span>{{ _pdata[_slot]['SUB'] or 'Idle' }}</span></div>
+        <div class="hbmon-slot-row"><span class="hbmon-card-label">Destination</span><span>{{ _pdata[_slot]['DEST'] or '—' }}</span></div>
+      </div>
+      {% endfor %}
+    </article>
+    {% endfor %}
+  </div>
   {% else %}
   <table style='width:100%; font: 13pt arial, sans-serif; margin-top:8px;margin-bottom:8px;'>
     <tr style='border:none; background-color:#f9f9f9;'>

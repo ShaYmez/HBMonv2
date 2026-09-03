@@ -13,19 +13,19 @@ include_once 'include/seo.php';
   <link rel="stylesheet" type="text/css" href="css/styles.php" />
 </head>
 <body style="background-color: #d0d0d0;font: 10pt arial, sans-serif;">
-  <div style="text-align: center;">
-    <div style="width:1100px; text-align: center; margin:5px auto 0;">
-      <p style="font-size: 10px; text-align: right; margin-right: 16px">Dashboard Version: <?php echo htmlspecialchars(DASH); ?></p>
-      <img src="img/HBLINK_logoV2.png?v=<?php echo htmlspecialchars(rawurlencode(DASH)); ?>" alt="HBlink Logo" />
+  <div class="hbmon-page">
+    <div class="hbmon-shell hbmon-header">
+      <p class="hbmon-header-version" style="font-size: 10px; text-align: right; margin-right: 16px">Dashboard Version: <?php echo htmlspecialchars(DASH); ?></p>
+      <img class="hbmon-logo" src="img/HBLINK_logoV2.png?v=<?php echo htmlspecialchars(rawurlencode(DASH)); ?>" alt="HBlink Logo" />
     </div>
-    <div style="width: 1100px; margin: 0 auto;">
-      <p style="text-align:center;"><span style="color:#000;font-size: 18px; font-weight:bold;"><?php echo htmlspecialchars(REPORT_NAME);?></span></p>
-      <?php include_once 'buttons.html'; ?>
+    <div class="hbmon-shell">
+      <p class="hbmon-report-name" style="text-align:center;"><span style="color:#000;font-size: 18px; font-weight:bold;"><?php echo htmlspecialchars(REPORT_NAME);?></span></p>
     </div>
-    <div style="width: 1100px; margin: 0 auto;">
+    <?php include_once 'buttons.html'; ?>
+    <main class="hbmon-shell hbmon-live">
       <noscript>You must enable JavaScript</noscript>
       <div id="masters"></div>
-    </div>
+    </main>
     <!--footer-->
     <?php include_once 'elements/footer.php'; ?>
     <!--//footer-->

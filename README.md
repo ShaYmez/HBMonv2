@@ -115,6 +115,13 @@ php support running on the server.
     and footer come from this repo. Compose migrate uses --keep-pages.
 
     In the html directory there is a buttons.html file that you can tune to menu keys 
+
+    Responsive layout: desktop keeps the original 1100px presentation at
+    1120px and wider. Tablets use fluid, contained tables; below 768px the
+    menu collapses behind the Menu button and operational tables become
+    labeled cards. No separate mobile configuration or resize script is
+    required. Keep custom links inside #hbmon-nav-links in buttons.html so
+    they participate in the compact menu.
     
     The logo image you can replace with file image in html directory  img/logo.png
     cp utils/lastheard /etc/cron.daily/

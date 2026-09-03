@@ -266,9 +266,9 @@ def write_lastheard_html():
     if not os.path.isfile(log_file):
         return
     with open(lastheard_html_path(), 'w', encoding='UTF-8', errors='ignore') as f:
-        f.write('<br><fieldset style="width:1050px; background-color:#f0f0f0; margin-left:15px; margin-right:15px; font-size:14px; border-radius: 10px;">\n')
+        f.write('<br><fieldset class="hbmon-panel" style="background-color:#f0f0f0; font-size:14px; border-radius: 10px;">\n')
         f.write('<legend><b><span style="color:#000;">&nbsp;.: Lastheard :.&nbsp;</span></b></legend>\n')
-        f.write('<table style="width:100%; font: 10pt arial, sans-serif;background-color:#f1f1f1;">\n')
+        f.write('<table class="hbmon-responsive-table hbmon-lastheard-table" style="width:100%; font: 10pt arial, sans-serif;background-color:#f1f1f1;">\n')
         f.write('<tr class="theme_color" style="height: 32px; font: 10pt arial, sans-serif;"><th>Date</th><th>Time</th><th>Callsign (DMR-Id)</th><th>Name</th><th>TG#</th><th>TG Name</th><th>TX (s)</th><th>System</th></tr>\n')
         with open(log_file, 'r', encoding='UTF-8', errors='ignore', newline='') as textfile:
             for row in islice(reversed(list(csv.reader(textfile))), 200):
@@ -290,7 +290,7 @@ def write_lastheard_html():
                 else:
                     qrz = '<a style="font: 9pt arial,sans-serif;font-weight:bold;color:#0066ff;" target="_blank" href="https://qrz.com/db/' + urlquote(callsign, safe='') + '">' + call_esc + '</a><span style="font: 7pt arial,sans-serif"> (' + id_esc + ')</span>'
                 tg = row[8][2:] if len(row[8]) > 2 else row[8]
-                hline = '<tr class="log"><td>' + htmlesc(row[0][:10]) + '</td><td>' + htmlesc(row[0][11:16]) + '</td><td>' + qrz + '</td><td><span style="color:#002d62;"><b>' + htmlesc(name) + '</b></span></td><td><span style="color:#b5651d;"><b>' + htmlesc(tg) + '</b></span></td><td><span style="color:green;"><b>' + htmlesc(row[9]) + '</b></span></td><td>' + htmlesc(dur) + '</td><td>' + htmlesc(row[4]) + '</td></tr>'
+                hline = '<tr class="log"><td data-label="Date">' + htmlesc(row[0][:10]) + '</td><td data-label="Time">' + htmlesc(row[0][11:16]) + '</td><td data-label="Callsign (DMR-Id)">' + qrz + '</td><td data-label="Name"><span style="color:#002d62;"><b>' + htmlesc(name) + '</b></span></td><td data-label="TG#"><span style="color:#b5651d;"><b>' + htmlesc(tg) + '</b></span></td><td data-label="TG Name"><span style="color:green;"><b>' + htmlesc(row[9]) + '</b></span></td><td data-label="TX (s)">' + htmlesc(dur) + '</td><td data-label="System">' + htmlesc(row[4]) + '</td></tr>'
                 my_list.append(user_id)
                 n += 1
                 f.write(hline + '\n')
