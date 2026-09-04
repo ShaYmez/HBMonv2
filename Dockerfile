@@ -1,6 +1,6 @@
 ###############################################################################
-#   Copyright (C) 2024-2025 Shane aka, ShaYmez <support@gb7nr.co.uk>
-#   Version 2.1.0
+#   Copyright (C) 2024-2026 Shane aka, ShaYmez <shane@freestar.network>
+#   Version 2.1.1
 ###############################################################################
 
 FROM python:3.12-alpine3.21

@@ -27,10 +27,14 @@ fi
 pip install --upgrade pip setuptools wheel
 pip install --no-cache-dir -r requirements.txt
 
+# Runtime paths used by the supplied standalone configuration.
+mkdir -p data log
+
 echo ""
 echo "=============================================="
 echo "Setup complete! To activate, run:"
 echo "  source .venv/bin/activate"
 echo ""
-echo "Then run your app as usual (e.g., python monitor.py/bridge.py)"
+echo "Copy config_SAMPLE.py to config.py, edit it, then run:"
+echo "  python monitor.py"
 echo "=============================================="

@@ -5,6 +5,17 @@ All notable changes to HBMonv2 will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.1] - 2026-09-04
+
+### Changed
+- Dashboard pages are fluid below 1120px, with a compact mobile menu, touch-friendly forms/logs, and phone card views for live status, LastHeard, and talkgroup data; the 1100px desktop layout is unchanged
+- Standalone and Docker configuration samples now share the `data/` layout, 28-day alias refresh, and disabled optional local aliases
+- Installation, Docker, configuration, Talkgroup Manager, LastHeard, and System Info documentation now matches the shipped files
+
+### Fixed
+- The systemd service now runs the virtual-environment Python installed by `install.sh`
+- The LastHeard rotation task handles a missing initial log and no longer rotates the same file twice
+
 ## [2.1.0] - 2026-09-03
 
 ### Added
@@ -16,7 +27,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Standalone installs omit the footer Docker version line
 - Lastheard HTML is written next to the Jinja templates (not `PATH/templates/`)
 - Lastheard CSV uses quoted callsign and name columns
-- Dashboard pages are fluid below 1120px, with a compact mobile menu, touch-friendly forms/logs, and phone card views for live status, Lastheard, and talkgroup data; the 1100px desktop layout is unchanged
 
 ### Fixed
 - WebSocket client no longer crashes on pages missing table nodes; script loads only on live pages
@@ -85,7 +95,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Version History
 
-- **2.1.0** (2026-09-03): Talkgroup manager, live talkgroup info, central VERSION file
+- **2.1.1** (2026-09-04): Responsive dashboard, configuration alignment, and production documentation cleanup
+- **2.1.0** (2026-09-03): Talkgroup manager/API, SEO, reliability fixes, and central VERSION file
 - **2.0.2** (2025-12-14): HTML5 compliance, security improvements, code quality enhancements
 - **1.6.9** (2024-06-14): Previous stable release
 - **Original**: HBMonitor by N0MJS, further developed by KC1AWV, adapted by SP2ONG
@@ -94,7 +105,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Notes
 
-This version maintains **100% backward compatibility** with existing configurations and installations. No breaking changes have been introduced. All improvements are focused on:
+Existing deployments can retain their local `config.py` and
+`html/include/config.php`. Review the annotated samples when creating a new
+configuration. The release focuses on:
 
 1. Code quality and modern standards compliance
 2. Security hardening (XSS prevention)
@@ -109,4 +122,4 @@ This version maintains **100% backward compatibility** with existing configurati
 - **Original Author**: Cortney T. Buffington (N0MJS)
 - **HBMonitor3**: KC1AWV
 - **HBMonv2**: SP2ONG (2019-2025)
-- **Docker Version**: ShaYmez M0VUB (2020-2025)
+- **Docker Version**: ShaYmez M0VUB (2020-2026)

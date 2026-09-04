@@ -1,11 +1,10 @@
 ###############################################################################
 #                    HBMonv2 Configuration File Example
 #         Copyright (C) 2013-2018 Cortney T. Buffington, N0MJS n0mjs@me.com
-#         Copyright (C) 2025 Shane aka, ShaYmez <shane@freestar.network>
+#         Copyright (C) 2025-2026 Shane aka, ShaYmez <shane@freestar.network>
 ###############################################################################
 
 # ---- FEATURE TOGGLES --------------------------------------------------------
-CONFIG_INC      = True    # Include HBlink stats
 HOMEBREW_INC    = True    # Display Homebrew Peers status
 LASTHEARD_INC   = True    # Display lastheard table on main page
 BRIDGES_INC     = False   # Display Bridge status and button
@@ -23,14 +22,14 @@ CLIENT_TIMEOUT  = 0              # Timeout clients after N secs (0=disable)
 OPB_FILTER      = ""
 
 # ---- ALIAS FILES AND PATHS --------------------------------------------------
-PATH            = './'                           # Base path (MUST END IN '/')
+PATH            = './data/'                      # Base path (MUST END IN '/')
 PEER_FILE       = 'peer_ids.json'                # Auto-download
 SUBSCRIBER_FILE = 'subscriber_ids.json'          # Auto-download
 TGID_FILE       = 'talkgroup_ids.json'           # User provided
-LOCAL_SUB_FILE  = 'local_subscriber_ids.json'    # Optional, user provided ('' if not used)
-LOCAL_PEER_FILE = 'local_peer_ids.json'          # Optional, user provided ('' if not used)
-LOCAL_TGID_FILE = 'local_talkgroup_ids.json'     # Optional, user provided ('' if not used)
-FILE_RELOAD     = 14                             # Days before reloading MARC files
+LOCAL_SUB_FILE  = ''                             # Optional, user provided
+LOCAL_PEER_FILE = ''                             # Optional, user provided
+LOCAL_TGID_FILE = ''                             # Optional, user provided
+FILE_RELOAD     = 28                             # Days before reloading RadioID.net files
 
 # ---- ALIAS DOWNLOAD URLS ----------------------------------------------------
 PEER_URL        = 'https://radioid.net/static/rptrs.json'

@@ -1,202 +1,265 @@
-**HBMonv2 - Adapted - Dockerised**
+# HBMonv2
 
-**HBmonitor is a "web dashboard" for HBlink by N0MJS. Further developed by Steve KC1AWV**
+HBMonv2 is a PHP dashboard and Python WebSocket monitor for HBlink. It is
+based on HBMonitor by N0MJS, hbmonitor3 by KC1AWV, and HBMonv2 by SP2ONG.
 
-***Version - HBMonV2 by SP2ONG 2019-2022***
-***Dashboard version: VERSION file in this repository***
-***Docker version (footer): VERSION from hblink3-docker-install, only when that stack is installed***
+The dashboard provides condensed live activity on its main page and dedicated
+views for masters, peers, OpenBridge systems, bridges, LastHeard, talkgroups,
+and system information.
 
-The main difference between HBMonitor v1 and v2 is the layout, i.e. the main page shows condensed 
-information and on the subpages, you can see the individual content that was shown on v1
+Current dashboard version: see [`VERSION`](VERSION).
 
-HBMonv2 is tested on Debian v10, v11, v12 & v13
+## Requirements
 
-**Note for Debian 12+/Ubuntu 23.04+**: The install.sh script has been updated to handle 
-PEP 668 externally-managed-environment restrictions using the --break-system-packages flag.
+- Debian 10–13 or a comparable Linux distribution
+- Python 3
+- A PHP-capable web server such as Apache, nginx, or lighttpd
+- Access to the HBlink TCP reporting socket
+- TCP port 9000 available to dashboard clients or a WebSocket reverse proxy
 
-This version of HBMonv2 requires a web server like apache2, lighttpd and 
-php support running on the server. 
+On Debian 12+/Ubuntu 23.04+, `install.sh` avoids PEP 668 conflicts by
+installing Python dependencies into `/opt/HBMonv2/.venv`.
 
+## Standalone installation
 
-    cd /opt
-    git clone https://github.com/sp2ong/HBMonv2.git
-    cd HBMonv2
-    chmod +x install.sh
-    ./install.sh
-    cp config_SAMPLE.py config.py
-    edit config.py and change what you necessary
+Run the installer from the repository root:
 
-    You need to copy the contents of the /opt/HBMonv2/html directory to 
-    the web server directory. Suppose your web server is available 
-    as http://dmrserver.org, copy the file to for example /var/www/html
+```sh
+cd /opt
+git clone https://github.com/ShaYmez/HBMonv2.git
+cd HBMonv2
+chmod +x install.sh
+./install.sh
+cp config_SAMPLE.py config.py
+```
 
-    If you copy files to /var/www/html/hbmon, HBMonitor will be 
-    accessible from http://dmrserver.org/hbmon
+Edit `config.py`, then create the initial talkgroup file if required:
 
-    You can copy to /var/www/hbmon and start HBMonitor access by configuring 
-    virtual the web server for subdomains e.g. hbmon.dmrserver.org 
-    the access will then be http://hbmon.dmrserver.org 
+```sh
+test -f data/talkgroup_ids.json ||
+  printf '{"count":0,"results":[]}\n' > data/talkgroup_ids.json
+```
 
-    In the html/include/ directory there is a config.php file in which you 
-    set the color theme and name for your Dashboard.
+For an initial web installation, copy `html/` to the desired document root:
 
-    Dashboard Version (top of each page) is the VERSION file in this
-    repository (/opt/HBMonv2/VERSION). The footer still shows SP2ONG
-    as the dashboard author. The Docker Version line is shown only when
-    this host was installed with hblink3-docker-install (compose file or
-    .installer_path present) and is read from that repo's VERSION.
+```sh
+mkdir -p /var/www/html/hbmon
+cp -a html/. /var/www/html/hbmon/
+```
 
-    In the html/include/config.php you can defined height of Server Activity 
-    window: 45px; 1 row, 60px 2 rows, 80px 3 rows:
-    define("HEIGHT_ACTIVITY","45px");
+The dashboard will then be available at `http://HOST/hbmon/`. A virtual host
+can instead point directly at the deployed directory.
 
-    Talkgroups: set PATH = './data/' and TGID_FILE = 'talkgroup_ids.json' in
-    config.py (standalone: /opt/HBMonv2/data/talkgroup_ids.json). Do not
-    hardcode /etc/hblink3/json/. Docker (hblink3-docker-install) bind-mounts
-    that directory as /hbmon/data; Apache already publishes
-    /json/talkgroup_ids.json. Standalone can use /json.php.
+Do not overwrite a configured Docker dashboard with a raw `html/` copy.
+The hblink3 Docker installer provides `hblink-dashboard-upgrade`, which keeps
+`html/include/config.php`, `html/buttons.html`, and custom images.
 
-    Talkgroup list for other apps (Z3DMR, VoxDMR, QSO 1, other HBlink
-    servers): GET the JSON. CORS is open. Cache-Control: no-cache.
+### systemd service
 
-        Docker stack:  https://<host>/json/talkgroup_ids.json
-        All installs:  https://<host>/json.php
-                       (subfolder: https://<host>/hbmon/json.php)
+The supplied unit uses the virtual environment created by `install.sh`:
 
-        {
-          "count": 2,
-          "results": [
-            { "id": 9, "tgid": 9, "callsign": "Local" }
-          ]
-        }
+```sh
+cp utils/hbmon.service /lib/systemd/system/
+systemctl daemon-reload
+systemctl enable --now hbmon
+systemctl status hbmon
+```
 
-    id and tgid are the talkgroup number (same value). callsign is the
-    name. Sort by numeric id. CSV download: /json.php?format=csv
-    (columns id,tgid,callsign). Talkgroup Info shows the live API URL
-    (Copy URL / Open JSON) for partners, plus Download JSON and Download CSV.
-    Docker: https://<host>/json/talkgroup_ids.json
-    Standalone / subfolder: the page's json.php. Override with
-    define("TGID_PUBLIC_URL", "https://example.com/json/talkgroup_ids.json");
+## Python configuration
 
-    Auto-detect prefers the Docker host files when they exist
-    (/etc/hblink3/json/talkgroup_ids.json, /etc/hblink3/tgmanager.users),
-    then falls back to /opt/HBMonv2. Optional overrides in
-    html/include/config.php:
-    define("TGID_JSON", "");
-    define("TGMANAGER_USERS", "");
-    define("LASTHEARD_LOG", "");
-    define("TGID_PUBLIC_URL", "");
-    define("SEO_INDEX", true);
+Use the sample appropriate to the deployment:
 
-    Public pages are indexable by default (unique titles, meta description,
-    generator/version, Open Graph, JSON-LD). Talkgroup Manager is always
-    noindex. Private dashboards: define("SEO_INDEX", false);
+- Standalone: copy `config_SAMPLE.py` to `config.py`.
+- Docker/hblink3 stack: mount `hbmon-config.py` as `/hbmon/config.py`.
 
-    Lastheard long list (log.php) auto-detects /var/log/hbmon/lastheard.log
-    then /opt/HBMonv2/log/lastheard.log. Override with LASTHEARD_LOG.
+The Docker sample uses the hblink3 network address; the standalone sample uses
+`127.0.0.1`. Both use `PATH = './data/'` and a 28-day RadioID.net refresh.
 
-    HTTPS dashboards open wss://hostname:9000. hbmon listens plain ws on
-    9000 — put a reverse proxy in front (Apache/nginx) that forwards WSS
-    to ws://127.0.0.1:9000.
+Important settings:
 
-    Talkgroup Manager (info.php Login, or /tgmanager.php):
-    php /opt/HBMonv2/utils/tgmanager-passwd admin
-    bash /opt/HBMonv2/utils/tgmanager-perms.sh
-    The perms script sets 664 + www-data group on talkgroup_ids.json only
-    (owner unchanged; never chown -R data/). Users file:
-    /etc/hblink3/tgmanager.users when /etc/hblink3 exists, otherwise
-    /opt/HBMonv2/tgmanager.users.
-    The web server must be able to read the users file and write
-    talkgroup_ids.json.
+- `HOMEBREW_INC`: include Homebrew peer status.
+- `LASTHEARD_INC`: show LastHeard on the main dashboard.
+- `BRIDGES_INC`: generate bridge status; disabled by default.
+- `EMPTY_MASTERS`: include masters without connected peers.
+- `HBLINK_IP` / `HBLINK_PORT`: HBlink reporting socket.
+- `FREQUENCY`: seconds between dashboard updates.
+- `CLIENT_TIMEOUT`: disconnect stale web clients after N seconds; `0` disables it.
+- `OPB_FILTER`: comma-separated OpenBridge network IDs excluded from LastHeard.
+- `PATH`: directory containing alias JSON files; it must end in `/`.
+- `LOCAL_SUB_FILE`, `LOCAL_PEER_FILE`, `LOCAL_TGID_FILE`: optional local aliases.
+- `PEER_URL`, `SUBSCRIBER_URL`, `FILE_RELOAD`: RadioID.net sources and refresh.
+- `LOG_PATH` / `LOG_NAME`: monitor log location and filename.
 
-    Docker installer: do not copy html/ over a live dashboard. Use
-    hblink-dashboard-upgrade. That keeps include/config.php (name/theme),
-    buttons.html (menu), and existing img/ logos. Pages, css/styles.php,
-    and footer come from this repo. Compose migrate uses --keep-pages.
+Unused optional local alias settings should remain empty.
 
-    In the html directory there is a buttons.html file that you can tune to menu keys 
+## Dashboard configuration
 
-    Responsive layout: desktop keeps the original 1100px presentation at
-    1120px and wider. Tablets use fluid, contained tables; below 768px the
-    menu collapses behind the Menu button and operational tables become
-    labeled cards. No separate mobile configuration or resize script is
-    required. Keep custom links inside #hbmon-nav-links in buttons.html so
-    they participate in the compact menu.
-    
-    The logo image you can replace with file image in html directory  img/logo.png
-    cp utils/lastheard /etc/cron.daily/
-    chmod +x /etc/cron.daily/lastheard
-    cp utils/hbmon.service /lib/systemd/system/
-    systemctl enable hbmon
-    systemctl start hbmon
-    systemctl status hbmon
-    forward TCP port 9000 and web server port in firewall
-    If the dashboard is served over HTTPS, proxy WSS to ws://127.0.0.1:9000
-    (the monitor process does not terminate TLS on 9000 by default).
-    
-    Please setup your SYSTEM INFO subpage with the following instruction:
-    
-    https://github.com/sp2ong/HBMonv2/tree/main/sysinfo
-    
-    Please remember the table lastheard displays only station transmissions 
-    that are longer than 2 sec.
-    use >=0 instead of >2 if you want to record all activities in line:
-    
-       if int(float(p[9])) > 2:  
+Edit `html/include/config.php` to configure:
 
-    If you want to have more than the last 15 entries in the Lastheard table
-    change in the monitor.py file line from:
-    
-       # maximum number of lists in lastheard on the main page 
-       if n == 15:
-    to for example:
-       if n == 25:
-    
-    
-    I recommend that you do not use the BRIDGE_INC = True option to display bridge information 
-    (if you have multiple bridges displaying this information will increase the CPU load, 
-    try to use BRIDGES_INC = False in config.py) 
-    
-    
-    ***************************************************************************************
-    
-    The HBMonv2 version without use external web server like apache2 etc is still available:
-    
-    cd /opt
-    git clone https://github.com/sp2ong/HBMonv2.git
-    cd HBMonv2
-    git checkout webserver-python
-    chmod +x install.sh
-    ./install.sh
-    cp config_SAMPLE.py config.py
-    edit config.py and change what you necessary
-    cp utils/hbmon.service /lib/systemd/system/
-    systemctl enable hbmon
-    systemctl start hbmon
-    systemctl status hbmon
-    forward TCP port 9000 and web server port 8080 in firewall
-    
-    *****************************************************************************************
----
+- `REPORT_NAME`: dashboard heading.
+- `HEIGHT_ACTIVITY`: `45px` for one row, `60px` for two, or `80px` for three.
+- `THEME_COLOR`: CSS declaration used by the supplied theme presets.
+- `TGID_JSON`: explicit talkgroup JSON path; empty enables auto-detection.
+- `TGMANAGER_USERS`: explicit manager users file; empty enables auto-detection.
+- `LASTHEARD_LOG`: explicit LastHeard log path; empty enables auto-detection.
+- `TGID_PUBLIC_URL`: public partner API URL; empty generates it automatically.
+- `SEO_INDEX`: public indexing switch; defaults to `true`.
 
-**hbmonitor3 by KC1AWV**
+Talkgroup Manager is always marked `noindex`. Set `SEO_INDEX` to `false` for
+private dashboards.
 
-Python 3 implementation of N0MJS HBmonitor for HBlink https://github.com/kc1awv/hbmonitor3 
+The dashboard version comes from `/opt/HBMonv2/VERSION` or the repository
+`VERSION` file. The footer adds the hblink3 Docker installer version only when
+that stack is detected.
 
----
+## Docker image
 
-Copyright (C) 2013-2018  Cortney T. Buffington, N0MJS <n0mjs@me.com>
+The CI workflow publishes `shaymez/hbmonv2:latest` for amd64 and arm64:
 
-This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of 
-the License, or (at your option) any later version.
+```sh
+docker pull shaymez/hbmonv2:latest
+docker run -d --name hbmon --restart unless-stopped \
+  --network YOUR_HBLINK_NETWORK \
+  -p 9000:9000 \
+  -v /path/to/hbmon-config.py:/hbmon/config.py:ro \
+  -v /path/to/json:/hbmon/data \
+  -v /path/to/log:/hbmon/log \
+  shaymez/hbmonv2:latest
+```
 
-This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-GNU General Public License for more details.
+Set `HBLINK_IP` in the mounted configuration to the HBlink address on the
+selected Docker network. Mounted data and log directories must be writable by
+container UID 54000. The image runs the Python monitor; serve `html/`
+separately with a PHP-capable web server.
 
-You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 
-02110-1301  USA
+## Talkgroups and partner API
 
----
+Python reads `PATH + TGID_FILE`. For standalone installations this is
+`/opt/HBMonv2/data/talkgroup_ids.json`. PHP checks these locations:
 
-<img src="https://github.com/sp2ong/HBMonv2/raw/main/html/img/hbmon.png">
+1. `/etc/hblink3/json/talkgroup_ids.json`
+2. `/opt/HBMonv2/data/talkgroup_ids.json`
 
+Keep the Python and PHP paths pointed at the same file.
+
+Partner applications such as Z3DMR, VoxDMR, QSO 1, and other HBlink servers
+can fetch:
+
+- Docker stack: `https://HOST/json/talkgroup_ids.json`
+- Any installation: `https://HOST/json.php`
+- Subdirectory deployment: `https://HOST/hbmon/json.php`
+- CSV: `https://HOST/json.php?format=csv`
+
+The endpoint enables CORS, uses `Cache-Control: no-cache`, and returns:
+
+```json
+{
+  "count": 1,
+  "results": [
+    {
+      "id": 9,
+      "tgid": 9,
+      "callsign": "Local"
+    }
+  ]
+}
+```
+
+`id` and `tgid` contain the same numeric talkgroup ID. Records are sorted by
+ID. Talkgroup Info displays the live API URL and provides Copy, Open, JSON,
+and CSV actions.
+
+Override the generated public URL when needed:
+
+```php
+define("TGID_PUBLIC_URL", "https://example.com/json/talkgroup_ids.json");
+```
+
+## Talkgroup Manager
+
+Create or update a manager account:
+
+```sh
+php /opt/HBMonv2/utils/tgmanager-passwd admin
+bash /opt/HBMonv2/utils/tgmanager-perms.sh
+```
+
+Additional account operations:
+
+```sh
+php /opt/HBMonv2/utils/tgmanager-passwd --delete admin
+php /opt/HBMonv2/utils/tgmanager-passwd --file /path/to/users admin
+```
+
+Avoid `--password` in interactive shells because its value can enter shell
+history. The web server must be able to read the users file and write
+`talkgroup_ids.json`. The permissions helper changes only that JSON file to
+group-writable mode; it never recursively changes the data directory.
+
+Default users-file locations:
+
+- Docker: `/etc/hblink3/tgmanager.users`
+- Standalone: `/opt/HBMonv2/tgmanager.users`
+
+## LastHeard
+
+LastHeard records completed transmissions longer than two seconds. To record
+all transmissions, change this condition in `monitor.py`:
+
+```python
+if int(float(p[9])) > 2:
+```
+
+The main dashboard shows 15 unique entries. Change `if n == 15:` in
+`write_lastheard_html()` to adjust that limit.
+
+`log.php` checks `/var/log/hbmon/lastheard.log`, then
+`/opt/HBMonv2/log/lastheard.log`. `LASTHEARD_LOG` overrides this order.
+
+Install the optional daily 250-line rotation:
+
+```sh
+cp utils/lastheard /etc/cron.daily/lastheard
+chmod +x /etc/cron.daily/lastheard
+```
+
+Set `LASTHEARD_LOG` in the cron environment when rotating a non-default path.
+
+## HTTPS and WebSockets
+
+The monitor listens for plain WebSocket connections on port 9000. HTTP pages
+connect to `ws://HOST:9000`; HTTPS pages connect to `wss://HOST:9000`.
+
+For HTTPS, configure Apache or nginx to terminate TLS and proxy WSS to
+`ws://127.0.0.1:9000`. The Python monitor does not terminate TLS itself.
+
+## Dashboard customization
+
+- Customize links in `html/buttons.html`.
+- Keep custom links inside `#hbmon-nav-links` so they use the mobile menu.
+- Uncomment the Bridges link when `BRIDGES_INC` is enabled.
+- Pages expect the custom logo at `html/img/HBLINK_logoV2.png`.
+- Desktop keeps the 1100px presentation at 1120px and wider.
+- Tablets use fluid contained tables; below 768px, operational tables use cards.
+
+System Info setup instructions are in [`sysinfo/Readme.txt`](sysinfo/Readme.txt).
+
+## Legacy Python web-server branch
+
+The original upstream maintains a separate
+[`webserver-python`](https://github.com/sp2ong/HBMonv2/tree/webserver-python)
+branch. It is not part of this release and may require different installation
+steps.
+
+## Credits and license
+
+- Original HBMonitor: Cortney T. Buffington, N0MJS
+- hbmonitor3: Steve, KC1AWV
+- HBMonv2: SP2ONG
+- Docker adaptation and current repository: ShaYmez, M0VUB
+
+HBMonv2 is distributed under the
+[GNU General Public License version 3 or later](https://www.gnu.org/licenses/gpl-3.0.html),
+without warranty.
+
+![HBlink logo](html/img/HBlink.svg)

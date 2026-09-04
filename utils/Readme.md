@@ -1,21 +1,20 @@
-Requirements a webserver with activated PHP (apache, nginx or whatever) – PHP 7.x is ok
+# LastHeard maintenance
 
+HBMonv2 records completed calls in `log/lastheard.log`. The supplied
+`lastheard` script retains the latest 250 lines and safely does nothing before
+the first log is created.
 
-Extension of hbmonitor  – we log if a call is ended (I think it’s better as start) Please check permissions for wr
-iting the logfile in target folder !
+Install it as a daily task:
 
-
-Call this script with crontab for everyday use.
-
-Put this file in /etc/cron.daily/ and add attribute:
-
+```sh
+cp /opt/HBMonv2/utils/lastheard /etc/cron.daily/lastheard
 chmod +x /etc/cron.daily/lastheard
+```
 
+The default file is `/opt/HBMonv2/log/lastheard.log`. To use another location,
+set `LASTHEARD_LOG` in the cron environment before invoking the script.
 
+The long list is available at `https://YOUR_HOST/log.php` and refreshes every
+30 seconds. Change the refresh value in `html/log.php` if required.
 
-Call the website with http://YOUR_HOST/log.php it runs with a refresh/reload time of 30sec, change the script for 
-other timeset.
-
-
-
-Thank you, Heiko DL1BZ, who shared the lastheard code.
+Thanks to Heiko DL1BZ, who shared the original LastHeard code.

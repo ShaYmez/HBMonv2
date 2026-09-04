@@ -2,7 +2,14 @@
 #
 # copy this file to /etc/cron.daily/
 
-mv /opt/HBMonv2/log/lastheard.log /opt/HBMonv2/log/lastheard.log.save
-/usr/bin/tail -250 /opt/HBMonv2/log/lastheard.log.save > /opt/HBMonv2/log/lastheard.log
-mv /opt/HBMonv2/log/lastheard.log /opt/HBMonv2/log/lastheard.log.save
-/usr/bin/tail -250 /opt/HBMonv2/log/lastheard.log.save > /opt/HBMonv2/log/lastheard.log
+set -eu
+
+log_file="${LASTHEARD_LOG:-/opt/HBMonv2/log/lastheard.log}"
+saved_file="${log_file}.save"
+temp_file="${log_file}.tmp"
+
+[ -f "$log_file" ] || exit 0
+
+mv "$log_file" "$saved_file"
+/usr/bin/tail -250 "$saved_file" > "$temp_file"
+mv "$temp_file" "$log_file"

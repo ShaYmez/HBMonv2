@@ -27,7 +27,7 @@ function hbmon_dashboard_version() {
             return $ver;
         }
     }
-    return '2.1.0';
+    return '2.1.1';
 }
 
 function hbmon_docker_version() {

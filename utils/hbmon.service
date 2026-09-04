@@ -10,7 +10,7 @@ Wants=network-online.target
 StandardOutput=null
 WorkingDirectory=/opt/HBMonv2
 RestartSec=3
-ExecStart=/usr/bin/python3 /opt/HBMonv2/monitor.py
+ExecStart=/opt/HBMonv2/.venv/bin/python /opt/HBMonv2/monitor.py
 Restart=on-abort
 
 [Install]
