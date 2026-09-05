@@ -10,8 +10,23 @@
     {% for _openbridge in _table['OPENBRIDGES'] %}
     <tr style="background-color:#f9f9f9;">
       <td data-label="OpenBridge" style="font-weight:bold; padding-left: 20px; text-align:left;"> {{ _openbridge}} </td>
-      <td data-label="Network ID"><div style="font: 9pt arial, sans-serif;margin-top:3px;margin-bottom:3px;">Net ID: <span style="font: 9pt arial, sans-serif;font-weight:bold;">{{ _table['OPENBRIDGES'][_openbridge]['NETWORK_ID'] }}</span></div></td>
-      <td data-label="Active QSOs" style="background-color:#f9f9f9; font: 9pt arial, sans-serif; font-weight: 600; color:#464646;">{% for entry in _table['OPENBRIDGES'][_openbridge]['STREAMS']  %}[<span style="{{ 'color:#008000;' if _table['OPENBRIDGES'][_openbridge]['STREAMS'][entry][0] == 'RX' else 'color:red;' }}">{{ _table['OPENBRIDGES'][_openbridge]['STREAMS'][entry][0] }}</span>: <span style="color:#0065ff;"> {{ _table['OPENBRIDGES'][_openbridge]['STREAMS'][entry][1] }}</span> >> <span style="color:#b5651d;">TG&nbsp;{{ _table['OPENBRIDGES'][_openbridge]['STREAMS'][entry][2] }}</span>]&nbsp;{% endfor %}</td>
+      <td data-label="Network ID"><div style="font: 9pt arial, sans-serif;margin-top:3px;margin-bottom:3px;"><span class="hbmon-desktop-only">Net ID: </span><span style="font: 9pt arial, sans-serif;font-weight:bold;">{{ _table['OPENBRIDGES'][_openbridge]['NETWORK_ID'] }}</span></div></td>
+      <td class="hbmon-qso-cell" data-label="Active QSOs" style="background-color:#f9f9f9; font: 9pt arial, sans-serif; font-weight: 600; color:#464646;">
+        {% if _table['OPENBRIDGES'][_openbridge]['STREAMS']|length > 0 %}
+        <div class="hbmon-qso-list">
+          {% for entry in _table['OPENBRIDGES'][_openbridge]['STREAMS'] %}
+          <span class="hbmon-qso-chip">
+            <span class="hbmon-qso-dir" style="{{ 'color:#008000;' if _table['OPENBRIDGES'][_openbridge]['STREAMS'][entry][0] == 'RX' else 'color:red;' }}">{{ _table['OPENBRIDGES'][_openbridge]['STREAMS'][entry][0] }}</span><span class="hbmon-qso-sep">: </span>
+            <span class="hbmon-qso-call" style="color:#0065ff;">{{ _table['OPENBRIDGES'][_openbridge]['STREAMS'][entry][1] }}</span>
+            <span class="hbmon-qso-arrow">&nbsp;&gt;&gt;&nbsp;</span>
+            <span class="hbmon-qso-tg" style="color:#b5651d;">TG&nbsp;{{ _table['OPENBRIDGES'][_openbridge]['STREAMS'][entry][2] }}</span>
+          </span>
+          {% endfor %}
+        </div>
+        {% else %}
+        <span class="hbmon-qso-idle hbmon-mobile-only">Idle</span>
+        {% endif %}
+      </td>
     </tr>
     {% endfor %}
   </table>

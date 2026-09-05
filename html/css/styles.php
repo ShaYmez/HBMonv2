@@ -359,6 +359,19 @@ table.tg-table tr.tg-editing {
   border-top: 1px solid rgba(0,0,0,.1);
   text-align: left;
 }
+.hbmon-qso-list {
+  display: inline;
+}
+.hbmon-qso-chip {
+  display: inline;
+  white-space: nowrap;
+}
+.hbmon-qso-chip::before {
+  content: "[";
+}
+.hbmon-qso-chip::after {
+  content: "] ";
+}
 
 @media (max-width: 1119px) {
   html {
@@ -594,6 +607,58 @@ table.tg-table tr.tg-editing {
     color: #464646;
     font-weight: 600;
     text-align: left;
+  }
+  .hbmon-responsive-table td.hbmon-qso-cell {
+    display: block;
+    text-align: left !important;
+  }
+  .hbmon-responsive-table td.hbmon-qso-cell::before {
+    display: block;
+    margin-bottom: 6px;
+  }
+  .hbmon-qso-list {
+    display: grid;
+    gap: 6px;
+  }
+  .hbmon-qso-chip {
+    display: grid;
+    grid-template-columns: 42px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px 10px;
+    border: 1px solid #d0d0d0;
+    border-radius: 8px;
+    background: #fff;
+    white-space: normal;
+    text-align: left;
+  }
+  .hbmon-qso-chip::before,
+  .hbmon-qso-chip::after {
+    content: none;
+  }
+  .hbmon-qso-sep,
+  .hbmon-qso-arrow {
+    display: none;
+  }
+  .hbmon-qso-dir {
+    font-weight: bold;
+  }
+  .hbmon-qso-call {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    text-align: left;
+  }
+  .hbmon-qso-tg {
+    white-space: nowrap;
+    font-weight: bold;
+  }
+  .hbmon-qso-idle {
+    display: block;
+    text-align: left;
+    color: #666;
+    font-weight: 600;
   }
   .hbmon-responsive-table .tg-actions {
     display: flex;
