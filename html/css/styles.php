@@ -608,6 +608,25 @@ table.tg-table tr.tg-editing {
     font-weight: 600;
     text-align: left;
   }
+  .hbmon-lastheard-table {
+    border: 0 !important;
+    background: transparent !important;
+    border-collapse: separate !important;
+    border-spacing: 0;
+  }
+  .hbmon-lastheard-table tr,
+  .hbmon-lastheard-table tr.log {
+    height: auto !important;
+  }
+  .hbmon-lastheard-table td,
+  .hbmon-lastheard-table td.log {
+    height: auto !important;
+    box-sizing: border-box;
+    font-family: inherit;
+  }
+  .hbmon-scroll {
+    overflow-x: visible;
+  }
   .hbmon-responsive-table td.hbmon-qso-cell {
     display: block;
     text-align: left !important;

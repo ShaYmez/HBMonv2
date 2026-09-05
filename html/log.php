@@ -45,11 +45,13 @@ function lastheard_field($data, $i) {
     <main class="hbmon-shell">
       <div class="hbmon-scroll">
         <fieldset class="hbmon-panel" style="background-color:#e0e0e0; font-size:14px; border-radius: 10px;">
-          <div class="hbmon-mobile-only hbmon-card-header">LastHeard</div>
+          <legend class="hbmon-mobile-only"><b><span style="color:#000;">&nbsp;.: LastHeard :.&nbsp;</span></b></legend>
           <table class="hbmon-responsive-table hbmon-lastheard-table" style="border-collapse: collapse; border: 1px solid #C1DAD7; width: 100%; background-color:#f0f0f0;">
-            <thead><tr><th colspan="8" style="height: 30px; font-size:18px; font-weight:bold;">LastHeard</th></tr></thead>
-            <tbody><tr class="theme_color" style="height:35px; text-align: center; font-weight:bold;"><th>&nbsp;&nbsp;Date</th><th>&nbsp;Time</th><th>&nbsp;Callsign (DMR-Id)</th><th>&nbsp;&nbsp;Name</th><th>&nbsp;TG#</th><th>&nbsp;&nbsp;TG Name</th><th>TX (s)&nbsp;</th><th>Source</th>
-            </tr>
+            <thead>
+              <tr><th colspan="8" style="height: 30px; font-size:18px; font-weight:bold;">LastHeard</th></tr>
+              <tr class="theme_color" style="height:35px; text-align: center; font-weight:bold;"><th>&nbsp;&nbsp;Date</th><th>&nbsp;Time</th><th>&nbsp;Callsign (DMR-Id)</th><th>&nbsp;&nbsp;Name</th><th>&nbsp;TG#</th><th>&nbsp;&nbsp;TG Name</th><th>TX (s)&nbsp;</th><th>Source</th></tr>
+            </thead>
+            <tbody>
 <?php
 $log_path = lastheard_log_path();
 $handle = is_readable($log_path) ? fopen($log_path, 'r') : false;
@@ -77,7 +79,7 @@ if ($handle) {
             $user_call = '*NoCallsign*';
             $user_id = '-';
         }
-        echo '<tr class="log" style="height:25px; text-align: center;">';
+        echo '<tr class="log">';
         echo '<td class="log" data-label="Date">&nbsp;'.htmlspecialchars($day.'.'.$month.'.'.$year).'</td>';
         echo '<td class="log" data-label="Time">&nbsp;'.htmlspecialchars(substr($stamp, 11, 5)).'</td>';
         echo '<td class="log" data-label="Callsign (DMR-Id)"><span style="color:#0066ff;"><b>&nbsp;'.htmlspecialchars($user_call).'</b></span>';
