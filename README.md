@@ -1,7 +1,8 @@
 # HBMonv2
 
 HBMonv2 is a PHP dashboard and Python WebSocket monitor for HBlink. It is
-based on HBMonitor by N0MJS, hbmonitor3 by KC1AWV, and HBMonv2 by SP2ONG.
+based on HBMonitor by N0MJS, hbmonitor3 by KC1AWV, and HBMonv2 by SP2ONG,
+updated by M0VUB.
 
 The dashboard provides condensed live activity on its main page and dedicated
 views for masters, peers, OpenBridge systems, bridges, LastHeard, talkgroups,
@@ -69,7 +70,7 @@ systemctl status hbmon
 
 Use the sample appropriate to the deployment:
 
-- Standalone: copy `config_SAMPLE.py` to `config.py`.
+- Stand-alone: copy `config_SAMPLE.py` to `config.py`.
 - Docker/hblink3 stack: mount `hbmon-config.py` as `/hbmon/config.py`.
 
 The Docker sample uses the hblink3 network address; the standalone sample uses
@@ -142,7 +143,7 @@ Python reads `PATH + TGID_FILE`. For standalone installations this is
 
 Keep the Python and PHP paths pointed at the same file.
 
-Partner applications such as Z3DMR, VoxDMR, QSO 1, and other HBlink servers
+Partner applications such as WPSD, Pi-Star, Z3DMR, VoxDMR, QSO 1, DVRef and other MMDVM partners 
 can fetch:
 
 - Docker stack: `https://HOST/json/talkgroup_ids.json`
@@ -150,7 +151,7 @@ can fetch:
 - Subdirectory deployment: `https://HOST/hbmon/json.php`
 - CSV: `https://HOST/json.php?format=csv`
 
-The endpoint enables CORS, uses `Cache-Control: no-cache`, and returns:
+The API endpoint enables CORS, uses `Cache-Control: no-cache`, and returns:
 
 ```json
 {
@@ -233,9 +234,9 @@ connect to `ws://HOST:9000`; HTTPS pages connect to `wss://HOST:9000`.
 For HTTPS, configure Apache or nginx to terminate TLS and proxy WSS to
 `ws://127.0.0.1:9000`. The Python monitor does not terminate TLS itself.
 
-## Dashboard customization
+## Dashboard customisation
 
-- Customize links in `html/buttons.html`.
+- Customise links in `html/buttons.html`.
 - Keep custom links inside `#hbmon-nav-links` so they use the mobile menu.
 - Uncomment the Bridges link when `BRIDGES_INC` is enabled.
 - Pages expect the custom logo at `html/img/HBLINK_logoV2.png`.
