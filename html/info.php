@@ -62,7 +62,7 @@ foreach ($tg['records'] as $record) {
         </table>
         <br>
         <div class="tg-api">
-          <label for="tg-api-url">Talkgroup API (Z3DMR, VoxDMR, other HBlink)</label>
+          <label for="tg-api-url">Talkgroup API (DVRef, Z3DMR, VoxDMR, other MMDVM)</label>
           <input id="tg-api-url" type="text" readonly="readonly" value="<?php echo htmlspecialchars($tg_api_url); ?>" onclick="this.select();" />
           <div class="tg-api-actions">
             <button type="button" class="button link" id="tg-api-copy">&nbsp;Copy URL&nbsp;</button>

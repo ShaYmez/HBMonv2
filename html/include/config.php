@@ -53,7 +53,7 @@ define("TGMANAGER_USERS", "");
 // Standalone: /opt/HBMonv2/log/lastheard.log
 define("LASTHEARD_LOG", "");
 
-// Public talkgroup JSON URL for apps (Z3DMR, VoxDMR). Empty = auto
+// Public talkgroup JSON URL for apps (DVRef, Z3DMR, VoxDMR, other MMDVM). Empty = auto
 // (Docker: https://<host>/json/talkgroup_ids.json, else this site's json.php).
 define("TGID_PUBLIC_URL", "");
 
